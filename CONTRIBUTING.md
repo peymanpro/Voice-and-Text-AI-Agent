@@ -10,8 +10,9 @@ Thanks for helping improve Voice and Text AI Agent. This project is in its initi
 
 ## Development conventions
 
-- Use the supported Node.js and pnpm versions documented in the root package configuration once Phase 01 establishes them.
+- Use Node.js **22.16.0** (see `.node-version`) and pnpm **10.34.9** (pinned in the root package manifest). Install with `pnpm install`; after the committed lockfile is available, prefer `pnpm install --frozen-lockfile`.
 - Keep changes focused; avoid unrelated refactoring and unnecessary dependencies.
+- Run the relevant root checks: `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test`, and `pnpm build`. Report commands that have not yet passed rather than treating the existence of scripts as successful validation.
 - Use TypeScript strict mode and the existing workspace patterns.
 - Use Conventional Commit messages, such as **feat: add conversation persistence**, **test: cover transcription errors**, or **docs: clarify setup**.
 - Add or update tests whenever behavior, validation, error handling, data persistence, or security boundaries change.

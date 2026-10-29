@@ -96,11 +96,26 @@ Completed status will be based on passing tests and verified behavior, not the e
 
 ## Current repository state
 
-At this checkpoint, the repository contains product/contribution documentation and a Railway Infrastructure as Code blueprint; the web app, API, database migrations, and runnable tests have not been implemented yet. No Railway project has been connected and no deployment is active. After the workspace and API scripts exist, the blueprint must be applied from an authorized Railway account, GitHub autodeploy and Wait for CI must be enabled, and the live deployment must be verified. See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request conventions.
+The initial pnpm workspace scaffold now contains a Next.js web shell, a NestJS API shell, TypeORM configuration, local SQLite/PostgreSQL driver selection, liveness/readiness endpoints, quality scripts, and a GitHub Actions workflow. The complete agent, model/STT/TTS adapters, knowledge retrieval, domain migrations, and end-to-end flows are still pending. The Railway Infrastructure as Code blueprint exists, but it has not been applied to a Railway account and no live deployment is claimed. See [CONTRIBUTING.md](CONTRIBUTING.md) for the supported toolchain and development commands.
 
 ## Getting started
 
-Initial repository setup is still in progress, so a working installation command is not published yet. Setup instructions and supported runtime versions will be added once the workspace and root scripts are implemented. Do not assume the application can be started from this initial README alone.
+### Requirements
+
+- Node.js 22.16.0 (see `.node-version`).
+- pnpm 10.34.9 (pinned in the root `package.json`).
+
+### Local setup
+
+```bash
+pnpm install
+pnpm --filter @voice-and-text-ai-agent/web dev
+pnpm --filter @voice-and-text-ai-agent/api dev
+```
+
+The web and API development commands run in separate terminals. In local development, the API uses an in-memory SQLite database when `DATABASE_URL` is not set. Set `DATABASE_URL` to a PostgreSQL connection string to exercise PostgreSQL locally. Production requires `DATABASE_URL`; it must never use local SQLite storage.
+
+Root quality commands are `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test`, and `pnpm build`. The first lockfile is being bootstrapped by CI; after `pnpm-lock.yaml` is committed, use `pnpm install --frozen-lockfile` for reproducible installs. These commands do not imply that the complete agent or voice workflows are already implemented.
 
 ## Roadmap
 
