@@ -30,16 +30,16 @@ The default development and CI path is intended to work with deterministic mock 
 
 This repository is intended to be a **pnpm monorepo** with separate web and API workspaces:
 
-| Layer | Planned technology | Responsibility |
-|---|---|---|
-| Web | Next.js App Router, React, TypeScript, Tailwind CSS | Product UI, conversation workspace, evidence inspector, accessible voice controls |
-| API | NestJS, Node.js, TypeScript | Validated API contracts, agent orchestration, provider adapters, tools, security boundaries |
-| Persistence | Hosted PostgreSQL with TypeORM for deployment; SQLite via TypeORM/better-sqlite3 for local development and fast tests | Conversations, messages, demo sessions, knowledge documents/chunks, tool runs, and execution events |
-| Hosting | Vercel for the Next.js web app; Railway for the NestJS API and Railway PostgreSQL in one project | Planned auto-deploy from product main after CI; Railway account connection and first deployment are not yet active |
-| Database hosting | Railway PostgreSQL as the intended API database; Neon/Supabase are optional PostgreSQL fallbacks | Managed PostgreSQL, private service networking, and Railway-managed DATABASE_URL reference; verify the current subscription quotas before deployment |
-| AI integration | Vercel AI SDK and provider adapters where supported by current official documentation | Model streaming and provider integration behind application-owned interfaces |
-| Speech | Replaceable STT and TTS adapters | Server-side transcription and speech synthesis, with deterministic mock adapters |
-| Quality | TypeScript strict mode, lint/format checks, automated tests, Playwright, GitHub Actions | Reproducible development and CI without mandatory paid APIs |
+| Layer            | Planned technology                                                                                                    | Responsibility                                                                                                                                       |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Web              | Next.js App Router, React, TypeScript, Tailwind CSS                                                                   | Product UI, conversation workspace, evidence inspector, accessible voice controls                                                                    |
+| API              | NestJS, Node.js, TypeScript                                                                                           | Validated API contracts, agent orchestration, provider adapters, tools, security boundaries                                                          |
+| Persistence      | Hosted PostgreSQL with TypeORM for deployment; SQLite via TypeORM/better-sqlite3 for local development and fast tests | Conversations, messages, demo sessions, knowledge documents/chunks, tool runs, and execution events                                                  |
+| Hosting          | Vercel for the Next.js web app; Railway for the NestJS API and Railway PostgreSQL in one project                      | Planned auto-deploy from product main after CI; Railway account connection and first deployment are not yet active                                   |
+| Database hosting | Railway PostgreSQL as the intended API database; Neon/Supabase are optional PostgreSQL fallbacks                      | Managed PostgreSQL, private service networking, and Railway-managed DATABASE_URL reference; verify the current subscription quotas before deployment |
+| AI integration   | Vercel AI SDK and provider adapters where supported by current official documentation                                 | Model streaming and provider integration behind application-owned interfaces                                                                         |
+| Speech           | Replaceable STT and TTS adapters                                                                                      | Server-side transcription and speech synthesis, with deterministic mock adapters                                                                     |
+| Quality          | TypeScript strict mode, lint/format checks, automated tests, Playwright, GitHub Actions                               | Reproducible development and CI without mandatory paid APIs                                                                                          |
 
 TypeORM is the planned ORM for the NestJS API. Database schema changes will use versioned TypeORM migrations; production schema synchronization will remain disabled. The intended online deployment is a Railway NestJS service connected privately to a Railway PostgreSQL service through a service-referenced `DATABASE_URL`. Neon and Supabase remain optional PostgreSQL fallbacks. SQLite through TypeORM's `better-sqlite3` driver is planned for quick local development and tests, while PostgreSQL integration tests remain mandatory before release. A local SQLite file must never be used as persistent storage for a deployed Vercel Function, whose writable `/tmp` space is temporary. Turso/libSQL is a possible future hosted SQLite option, but it must not be selected until a suitable TypeORM driver and its migration/transaction behavior have been verified. PostgreSQL vector search may be added only after the selected database host and required extension are verified. A deterministic lexical retrieval path is planned so retrieval does not depend entirely on embeddings or a paid API.
 
@@ -96,11 +96,26 @@ Completed status will be based on passing tests and verified behavior, not the e
 
 ## Current repository state
 
-At this checkpoint, the repository contains product/contribution documentation and a Railway Infrastructure as Code blueprint; the web app, API, database migrations, and runnable tests have not been implemented yet. No Railway project has been connected and no deployment is active. After the workspace and API scripts exist, the blueprint must be applied from an authorized Railway account, GitHub autodeploy and Wait for CI must be enabled, and the live deployment must be verified. See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request conventions.
+The initial pnpm workspace scaffold now contains a Next.js web shell, a NestJS API shell, TypeORM configuration, local SQLite/PostgreSQL driver selection, liveness/readiness endpoints, quality scripts, and a GitHub Actions workflow. The complete agent, model/STT/TTS adapters, knowledge retrieval, domain migrations, and end-to-end flows are still pending. The Railway Infrastructure as Code blueprint exists, but it has not been applied to a Railway account and no live deployment is claimed. See [CONTRIBUTING.md](CONTRIBUTING.md) for the supported toolchain and development commands.
 
 ## Getting started
 
-Initial repository setup is still in progress, so a working installation command is not published yet. Setup instructions and supported runtime versions will be added once the workspace and root scripts are implemented. Do not assume the application can be started from this initial README alone.
+### Requirements
+
+- Node.js 22.16.0 (see `.node-version`).
+- pnpm 10.34.9 (pinned in the root `package.json`).
+
+### Local setup
+
+```bash
+pnpm install
+pnpm --filter @voice-and-text-ai-agent/web dev
+pnpm --filter @voice-and-text-ai-agent/api dev
+```
+
+The web and API development commands run in separate terminals. In local development, the API uses an in-memory SQLite database when `DATABASE_URL` is not set. Set `DATABASE_URL` to a PostgreSQL connection string to exercise PostgreSQL locally. Production requires `DATABASE_URL`; it must never use local SQLite storage.
+
+Root quality commands are `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test`, and `pnpm build`. The first lockfile is being bootstrapped by CI; after `pnpm-lock.yaml` is committed, use `pnpm install --frozen-lockfile` for reproducible installs. These commands do not imply that the complete agent or voice workflows are already implemented.
 
 ## Roadmap
 
