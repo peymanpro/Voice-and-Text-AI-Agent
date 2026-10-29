@@ -9,7 +9,7 @@ on:
       - "docs/**"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -35,66 +35,11 @@ jobs:
         with:
           node-version: 22.16.0
 
-      - name: Detect initial lockfile bootstrap
-        id: lock
-        shell: bash
-        run: |
-          if [ -f pnpm-lock.yaml ]; then
-            echo "bootstrap=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "bootstrap=true" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Install workspace dependencies
-        id: install
-        shell: bash
-        run: |
-          if [ "${{ steps.lock.outputs.bootstrap }}" = "true" ]; then
-            pnpm install --no-frozen-lockfile
-          else
-            pnpm install --frozen-lockfile
-          fi
-
-      - name: Commit initial lockfile to the current branch
-        if: steps.lock.outputs.bootstrap == 'true' && success()
-        shell: bash
-        run: |
-          if [ -f pnpm-lock.yaml ] && [ -n "$(git status --porcelain -- pnpm-lock.yaml)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add pnpm-lock.yaml
-            git commit -m "chore: add pnpm lockfile"
-            git push origin "HEAD:${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
-          fi
-
-      - name: Upload first generated lockfile
-        if: always() && steps.lock.outputs.bootstrap == 'true' && hashFiles('pnpm-lock.yaml') != ''
-        uses: actions/upload-artifact@v4
-        with:
-          name: pnpm-lock-bootstrap
-          path: pnpm-lock.yaml
-          if-no-files-found: error
-          retention-days: 1
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm lint
-
-      # One-time source-formatting bootstrap; remove after this push.
-      - name: Normalize initial source formatting
-        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'prepare formatting bootstrap')
-        run: pnpm format:write
-
-      - name: Commit initial formatting changes
-        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'prepare formatting bootstrap') && success()
-        shell: bash
-        run: |
-          if [ -n "$(git status --porcelain)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add -u
-            git commit -m "style: format initial workspace"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
 
       - name: Check formatting
         run: pnpm format:check
