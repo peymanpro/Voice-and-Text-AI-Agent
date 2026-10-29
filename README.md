@@ -93,6 +93,10 @@ Completed status will be based on passing tests and verified behavior, not the e
 - Do not publish benchmark numbers, provider capabilities, screenshots, or deployment URLs without reproducible evidence.
 - Prefer focused changes and Conventional Commit messages.
 
+## Current repository state
+
+At this documentation-bootstrap checkpoint, the repository contains product and contribution documentation; the web app, API, database migrations, and runnable tests have not been implemented yet. The initial workspace/tooling phase is the next engineering milestone. See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request conventions.
+
 ## Getting started
 
 Initial repository setup is still in progress, so a working installation command is not published yet. Setup instructions and supported runtime versions will be added once the workspace and root scripts are implemented. Do not assume the application can be started from this initial README alone.
