@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "feat/**"
+      - "docs/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  quality:
+    name: Quality gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.34.9
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+
+      - name: Detect initial lockfile bootstrap
+        id: lock
+        shell: bash
+        run: |
+          if [ -f pnpm-lock.yaml ]; then
+            echo "bootstrap=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "bootstrap=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install workspace dependencies
+        id: install
+        shell: bash
+        run: |
+          if [ "${{ steps.lock.outputs.bootstrap }}" = "true" ]; then
+            pnpm install --no-frozen-lockfile
+          else
+            pnpm install --frozen-lockfile
+          fi
+
+      - name: Upload first generated lockfile
+        if: always() && steps.lock.outputs.bootstrap == 'true' && hashFiles('pnpm-lock.yaml') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: pnpm-lock-bootstrap
+          path: pnpm-lock.yaml
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Check formatting
+        run: pnpm format:check
+
+      - name: Type-check
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
