@@ -79,6 +79,22 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Normalize initial source formatting
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'ci: prepare formatting bootstrap')
+        run: pnpm format:write
+
+      - name: Commit initial formatting changes
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, 'ci: prepare formatting bootstrap') && success()
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -u
+            git commit -m "style: format initial workspace"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
       - name: Check formatting
         run: pnpm format:check
 
