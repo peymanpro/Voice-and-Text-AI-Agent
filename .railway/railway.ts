@@ -12,13 +12,7 @@
  * No custom CPU, memory, replica, volume-size, or usage caps are set here.
  * Railway subscription quotas still apply.
  */
-import {
-  defineRailway,
-  github,
-  postgres,
-  project,
-  service,
-} from "railway/iac";
+import { defineRailway, github, postgres, project, service } from "railway/iac";
 
 export default defineRailway(() => {
   const database = postgres("postgres");

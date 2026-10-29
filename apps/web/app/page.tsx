@@ -73,9 +73,9 @@ export default function Home() {
             ◈
           </span>
           <p>
-            This is the initial product shell. Agent, database, and speech
-            workflows are being implemented in tested phases; they are not
-            advertised here as already shipped.
+            This is the initial product shell. Agent, database, and speech workflows are
+            being implemented in tested phases; they are not advertised here as already
+            shipped.
           </p>
         </div>
       </section>
