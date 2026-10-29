@@ -36,7 +36,7 @@ This repository is intended to be a **pnpm monorepo** with separate web and API 
 | API | NestJS, Node.js, TypeScript | Validated API contracts, agent orchestration, provider adapters, tools, security boundaries |
 | Persistence | Hosted PostgreSQL with TypeORM for deployment; SQLite via TypeORM/better-sqlite3 for local development and fast tests | Conversations, messages, demo sessions, knowledge documents/chunks, tool runs, and execution events |
 | Hosting | Vercel for the web app; a compatible Node.js service for the NestJS API | Deployment boundaries that support the actual streaming and audio-upload requirements |
-| Database hosting | Neon as the initial hosted PostgreSQL option | Managed PostgreSQL; extension and deployment compatibility will be verified before use |
+| Database hosting | Neon Free as the default; Supabase Free as a PostgreSQL alternative | Managed PostgreSQL; verify current free-tier quotas, inactivity policies, and extension/deployment compatibility before use |
 | AI integration | Vercel AI SDK and provider adapters where supported by current official documentation | Model streaming and provider integration behind application-owned interfaces |
 | Speech | Replaceable STT and TTS adapters | Server-side transcription and speech synthesis, with deterministic mock adapters |
 | Quality | TypeScript strict mode, lint/format checks, automated tests, Playwright, GitHub Actions | Reproducible development and CI without mandatory paid APIs |
