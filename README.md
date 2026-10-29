@@ -35,13 +35,13 @@ This repository is intended to be a **pnpm monorepo** with separate web and API 
 | Web | Next.js App Router, React, TypeScript, Tailwind CSS | Product UI, conversation workspace, evidence inspector, accessible voice controls |
 | API | NestJS, Node.js, TypeScript | Validated API contracts, agent orchestration, provider adapters, tools, security boundaries |
 | Persistence | Hosted PostgreSQL with TypeORM for deployment; SQLite via TypeORM/better-sqlite3 for local development and fast tests | Conversations, messages, demo sessions, knowledge documents/chunks, tool runs, and execution events |
-| Hosting | Vercel for the web app; a compatible Node.js service for the NestJS API | Deployment boundaries that support the actual streaming and audio-upload requirements |
-| Database hosting | Neon Free as the default; Supabase Free as a PostgreSQL alternative | Managed PostgreSQL; verify current free-tier quotas, inactivity policies, and extension/deployment compatibility before use |
+| Hosting | Vercel for the Next.js web app; Railway for the NestJS API and Railway PostgreSQL in one project | Planned auto-deploy from product main after CI; Railway account connection and first deployment are not yet active |
+| Database hosting | Railway PostgreSQL as the intended API database; Neon/Supabase are optional PostgreSQL fallbacks | Managed PostgreSQL, private service networking, and Railway-managed DATABASE_URL reference; verify the current subscription quotas before deployment |
 | AI integration | Vercel AI SDK and provider adapters where supported by current official documentation | Model streaming and provider integration behind application-owned interfaces |
 | Speech | Replaceable STT and TTS adapters | Server-side transcription and speech synthesis, with deterministic mock adapters |
 | Quality | TypeScript strict mode, lint/format checks, automated tests, Playwright, GitHub Actions | Reproducible development and CI without mandatory paid APIs |
 
-TypeORM is the planned ORM for the NestJS API. Database schema changes will use versioned TypeORM migrations; production schema synchronization will remain disabled. For the online demo, the default database target is Neon Free PostgreSQL, with Supabase Free as a compatible PostgreSQL alternative; current quotas and inactivity policies must be checked before deployment. SQLite through TypeORM's `better-sqlite3` driver is planned for quick local development and tests, while PostgreSQL integration tests remain mandatory before release. A local SQLite file must never be used as persistent storage for a deployed Vercel Function, whose writable `/tmp` space is temporary. Turso/libSQL is a possible future hosted SQLite option, but it must not be selected until a suitable TypeORM driver and its migration/transaction behavior have been verified. PostgreSQL vector search may be added only after the selected database host and required extension are verified. A deterministic lexical retrieval path is planned so retrieval does not depend entirely on embeddings or a paid API.
+TypeORM is the planned ORM for the NestJS API. Database schema changes will use versioned TypeORM migrations; production schema synchronization will remain disabled. The intended online deployment is a Railway NestJS service connected privately to a Railway PostgreSQL service through a service-referenced `DATABASE_URL`. Neon and Supabase remain optional PostgreSQL fallbacks. SQLite through TypeORM's `better-sqlite3` driver is planned for quick local development and tests, while PostgreSQL integration tests remain mandatory before release. A local SQLite file must never be used as persistent storage for a deployed Vercel Function, whose writable `/tmp` space is temporary. Turso/libSQL is a possible future hosted SQLite option, but it must not be selected until a suitable TypeORM driver and its migration/transaction behavior have been verified. PostgreSQL vector search may be added only after the selected database host and required extension are verified. A deterministic lexical retrieval path is planned so retrieval does not depend entirely on embeddings or a paid API.
 
 ### Target structure
 
@@ -51,8 +51,9 @@ The initial workspace is expected to evolve toward the following organization. T
 - **apps/api** — NestJS application, TypeORM entities/migrations, agent runtime, and server-only provider adapters.
 - Shared packages — only where a concrete shared contract or reusable behavior justifies a separate package.
 - Root tooling — pnpm workspace, quality scripts, CI, and contributor documentation.
+- **.railway/railway.ts** — Railway Infrastructure as Code blueprint declaring a Railway PostgreSQL resource and API service, intended to deploy from product `main`.
 
-This is a target structure, not a claim that those directories already exist.
+The Railway blueprint has not been applied to a Railway account. The API workspace, build/start/migration scripts, and readiness endpoint still need to be implemented before the first deployment can succeed.
 
 ## Safety and trust boundaries
 
@@ -95,7 +96,7 @@ Completed status will be based on passing tests and verified behavior, not the e
 
 ## Current repository state
 
-At this documentation-bootstrap checkpoint, the repository contains product and contribution documentation; the web app, API, database migrations, and runnable tests have not been implemented yet. The initial workspace/tooling phase is the next engineering milestone. See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request conventions.
+At this checkpoint, the repository contains product/contribution documentation and a Railway Infrastructure as Code blueprint; the web app, API, database migrations, and runnable tests have not been implemented yet. No Railway project has been connected and no deployment is active. After the workspace and API scripts exist, the blueprint must be applied from an authorized Railway account, GitHub autodeploy and Wait for CI must be enabled, and the live deployment must be verified. See [CONTRIBUTING.md](CONTRIBUTING.md) for development and pull-request conventions.
 
 ## Getting started
 
