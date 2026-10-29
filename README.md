@@ -96,7 +96,7 @@ Completed status will be based on passing tests and verified behavior, not the e
 
 ## Current repository state
 
-The initial pnpm workspace scaffold now contains a Next.js web shell, a NestJS API shell, TypeORM configuration, local SQLite/PostgreSQL driver selection, liveness/readiness endpoints, quality scripts, and a GitHub Actions workflow. The complete agent, model/STT/TTS adapters, knowledge retrieval, domain migrations, and end-to-end flows are still pending. The Railway Infrastructure as Code blueprint exists, but it has not been applied to a Railway account and no live deployment is claimed. See [CONTRIBUTING.md](CONTRIBUTING.md) for the supported toolchain and development commands.
+The initial pnpm workspace scaffold now contains a Next.js web shell, a NestJS API shell, TypeORM configuration, local SQLite/PostgreSQL driver selection, liveness/readiness endpoints, quality scripts, and a GitHub Actions workflow. The complete agent, model/STT/TTS adapters, knowledge retrieval, domain migrations, and end-to-end flows are still pending. A Railway PostgreSQL service has been provisioned successfully in the account's existing `cheerful-curiosity` project, which already hosts an unrelated service. The existing service was not modified. The NestJS API has not been deployed or connected to this database, and the repository's dedicated-project Infrastructure as Code blueprint has not been applied. Confirm whether to keep using the existing Railway project for this application or remove the newly created database and wait for a separate project to become available. See [CONTRIBUTING.md](CONTRIBUTING.md) for the supported toolchain and development commands.
 
 ## Getting started
 
