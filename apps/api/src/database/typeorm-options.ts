@@ -13,7 +13,7 @@ export function createTypeOrmOptions(): DataSourceOptions {
     migrationsTableName: "typeorm_migrations",
     synchronize: false,
     logging: false,
-  } as const;
+  };
 
   if (databaseUrl) {
     return {
