@@ -9,7 +9,7 @@ on:
       - "docs/**"
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
@@ -53,6 +53,18 @@ jobs:
             pnpm install --no-frozen-lockfile
           else
             pnpm install --frozen-lockfile
+          fi
+
+      - name: Commit initial lockfile to the current branch
+        if: steps.lock.outputs.bootstrap == 'true' && success()
+        shell: bash
+        run: |
+          if [ -f pnpm-lock.yaml ] && [ -n "$(git status --porcelain -- pnpm-lock.yaml)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add pnpm-lock.yaml
+            git commit -m "chore: add pnpm lockfile"
+            git push origin "HEAD:${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
           fi
 
       - name: Upload first generated lockfile
