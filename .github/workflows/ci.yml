@@ -79,6 +79,7 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      # One-time source-formatting bootstrap; remove after this push.
       - name: Normalize initial source formatting
         if: github.event_name == 'push' && contains(github.event.head_commit.message, 'prepare formatting bootstrap')
         run: pnpm format:write
