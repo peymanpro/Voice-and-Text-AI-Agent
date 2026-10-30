@@ -1,3 +1,5 @@
+import React from "react";
+
 type StatusTone = "neutral" | "success" | "warning";
 
 type StatusPillProps = {
