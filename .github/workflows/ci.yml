@@ -41,8 +41,6 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Temporary Prettier output for migration script
-        run: pnpm exec prettier apps/api/scripts/migrate-with-retry.mjs
       - name: Check formatting
         run: pnpm format:check
 
