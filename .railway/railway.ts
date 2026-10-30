@@ -1,8 +1,11 @@
 /**
  * Desired Railway resources for Voice and Text AI Agent.
  *
- * Apply with the Railway CLI only after the pnpm workspace, NestJS API scripts,
- * TypeORM migration command, and /health/ready endpoint exist. This file does not
+ * This blueprint still targets a dedicated project named voice-and-text-ai-agent.
+ * The live service currently shares the existing cheerful-curiosity project, so do not
+ * apply this blueprint there without reviewing the plan for project/resource changes.
+ * The deploy-time migration command retries briefly to tolerate PostgreSQL cold starts.
+ * This file does not
  * authenticate Railway, grant GitHub permissions, or enable dashboard-only
  * controls such as Wait for CI.
  *
@@ -22,7 +25,7 @@ export default defineRailway(() => {
       branch: "main",
     }),
     build: "pnpm --filter @voice-and-text-ai-agent/api build",
-    preDeploy: "pnpm --filter @voice-and-text-ai-agent/api migration:run",
+    preDeploy: "pnpm --filter @voice-and-text-ai-agent/api migration:run:retry",
     start: "pnpm --filter @voice-and-text-ai-agent/api start:prod",
     healthcheck: "/health/ready",
     healthcheckTimeout: 300,
