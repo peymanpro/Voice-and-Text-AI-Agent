@@ -1,11 +1,5 @@
 import { randomUUID } from "node:crypto";
-import {
-  Column,
-  Entity,
-  OneToMany,
-  PrimaryColumn,
-  Index,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryColumn, Index } from "typeorm";
 
 import type { ConversationEntity } from "./conversation.entity.js";
 
@@ -33,9 +27,6 @@ export class DemoSessionEntity {
   })
   expiresAt: string | null = null;
 
-  @OneToMany(
-    "ConversationEntity",
-    "session",
-  )
+  @OneToMany("ConversationEntity", "session")
   conversations!: ConversationEntity[];
 }
