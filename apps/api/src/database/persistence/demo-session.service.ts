@@ -27,14 +27,8 @@ export class DemoSessionService {
     private readonly sessions: Repository<DemoSessionEntity>,
   ) {}
 
-  async issueSession(
-    ttlMs = DEFAULT_SESSION_TTL_MS,
-  ): Promise<IssuedDemoSession> {
-    if (
-      !Number.isSafeInteger(ttlMs) ||
-      ttlMs <= 0 ||
-      ttlMs > MAX_SESSION_TTL_MS
-    ) {
+  async issueSession(ttlMs = DEFAULT_SESSION_TTL_MS): Promise<IssuedDemoSession> {
+    if (!Number.isSafeInteger(ttlMs) || ttlMs <= 0 || ttlMs > MAX_SESSION_TTL_MS) {
       throw new BadRequestException(
         "Session lifetime must be a positive duration of at most 30 days.",
       );
@@ -69,8 +63,7 @@ export class DemoSessionService {
 
     if (
       !session ||
-      (session.expiresAt !== null &&
-        Date.parse(session.expiresAt) <= Date.now())
+      (session.expiresAt !== null && Date.parse(session.expiresAt) <= Date.now())
     ) {
       throw new UnauthorizedException("A valid demo session is required.");
     }
