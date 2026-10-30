@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectDataSource, InjectRepository } from "@nestjs/typeorm";
 import { DataSource, Repository } from "typeorm";
 
@@ -13,12 +9,7 @@ import { DemoSessionService } from "./demo-session.service.js";
 
 const MAX_CONVERSATION_TITLE_LENGTH = 200;
 const MAX_MESSAGE_CONTENT_LENGTH = 100_000;
-const MESSAGE_ROLES = new Set<MessageRole>([
-  "user",
-  "assistant",
-  "system",
-  "tool",
-]);
+const MESSAGE_ROLES = new Set<MessageRole>(["user", "assistant", "system", "tool"]);
 
 export type AppendMessageInput = {
   role: MessageRole;
@@ -62,9 +53,7 @@ export class ConversationPersistenceService {
     return this.conversations.save(conversation);
   }
 
-  async listConversations(
-    sessionToken: string,
-  ): Promise<ConversationEntity[]> {
+  async listConversations(sessionToken: string): Promise<ConversationEntity[]> {
     const session = await this.sessions.requireSession(sessionToken);
 
     return this.conversations.find({
@@ -105,10 +94,7 @@ export class ConversationPersistenceService {
       throw new BadRequestException("Message role is not supported.");
     }
 
-    if (
-      typeof input.content !== "string" ||
-      input.content.trim().length === 0
-    ) {
+    if (typeof input.content !== "string" || input.content.trim().length === 0) {
       throw new BadRequestException("Message content must not be empty.");
     }
 
@@ -119,8 +105,7 @@ export class ConversationPersistenceService {
     }
 
     return this.dataSource.transaction(async (manager) => {
-      const conversationRepository =
-        manager.getRepository(ConversationEntity);
+      const conversationRepository = manager.getRepository(ConversationEntity);
       const messageRepository = manager.getRepository(MessageEntity);
       const query = conversationRepository
         .createQueryBuilder("conversation")
