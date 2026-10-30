@@ -4,7 +4,10 @@ import { fileURLToPath } from "node:url";
 
 const apiDirectory = fileURLToPath(new URL("../", import.meta.url));
 const maxAttempts = readPositiveInteger(process.env.MIGRATION_MAX_ATTEMPTS, 20);
-const retryDelayMs = readPositiveInteger(process.env.MIGRATION_RETRY_DELAY_MS, 3000);
+const retryDelayMs = readPositiveInteger(
+  process.env.MIGRATION_RETRY_DELAY_MS,
+  3000,
+);
 
 function readPositiveInteger(value, fallback) {
   if (value === undefined || value.trim() === "") return fallback;
@@ -54,7 +57,7 @@ for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
 
   if (attempt < maxAttempts) {
     console.warn(
-      "Migration attempt " + attemptLabel + " failed; retrying in " + retryDelayMs + " ms.",
+      "Migration attempt " + attemptLabel + " failed; retrying.",
     );
     await delay(retryDelayMs);
     continue;
