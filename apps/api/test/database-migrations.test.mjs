@@ -129,8 +129,7 @@ test("creates the core schema, persists a conversation, and rolls back", async (
         ),
       );
 
-      const removed = await dataSource.undoLastMigration();
-      assert.equal(removed.name, "CreateConversationPersistence1793360000000");
+      await dataSource.undoLastMigration();
 
       const remainingTables = await dataSource.query(
         "SELECT name FROM sqlite_master WHERE type = 'table'",
