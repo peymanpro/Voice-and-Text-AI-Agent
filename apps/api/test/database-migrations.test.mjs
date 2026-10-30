@@ -160,7 +160,6 @@ test("stores session token digests rather than raw session tokens", () => {
   assert.notEqual(digest, rawToken);
 });
 
-
 const postgresTestUrl = process.env.TEST_DATABASE_URL;
 
 test(
