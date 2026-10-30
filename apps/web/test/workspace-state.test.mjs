@@ -1,10 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 import {
   initialWorkspaceState,
   workspaceReducer,
 } from "../lib/workspace-state.mjs";
+import { WorkspaceShell } from "../components/workspace-shell.tsx";
 
 test("starts with an empty draft and evidence inspector", () => {
   assert.deepEqual(initialWorkspaceState, {
@@ -23,7 +26,7 @@ test("stores composer text without changing the selected inspector", () => {
   assert.equal(state.inspector, "evidence");
 });
 
-test("clears the draft while preserving the inspector tab", () => {
+test("clears the draft while preserving the selected inspector", () => {
   const activityState = workspaceReducer(initialWorkspaceState, {
     type: "select-inspector",
     value: "activity",
@@ -59,4 +62,34 @@ test("ignores an unsupported inspector value", () => {
   });
 
   assert.equal(state, initialWorkspaceState);
+});
+
+test("renders the empty conversation and honest preview state", () => {
+  const html = renderToStaticMarkup(createElement(WorkspaceShell));
+
+  assert.match(html, /Your conversation starts here\./);
+  assert.match(html, /Agent runtime is not connected/);
+  assert.match(html, /No message is sent and no model is called\./);
+  assert.match(html, /No evidence yet/);
+  assert.match(html, /No activity yet/);
+});
+
+test("keeps unavailable send and voice controls disabled and labelled", () => {
+  const html = renderToStaticMarkup(createElement(WorkspaceShell));
+
+  assert.match(html, /aria-label="Voice input is not available yet"/);
+  assert.match(html, /Send[\s\S]*?<\/button>/);
+  assert.match(html, /disabled=""/);
+  assert.match(html, /aria-describedby="composer-help"/);
+  assert.match(html, /Your message/);
+});
+
+test("renders accessible inspector controls and prompt suggestions", () => {
+  const html = renderToStaticMarkup(createElement(WorkspaceShell));
+
+  assert.match(html, /role="group" aria-label="Inspector panels"/);
+  assert.match(html, /aria-pressed="true"/);
+  assert.match(html, /Evidence/);
+  assert.match(html, /Activity/);
+  assert.match(html, /Show me how evidence and citations will appear\./);
 });
