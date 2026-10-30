@@ -3,12 +3,12 @@
 import Link from "next/link";
 import { useReducer } from "react";
 
-import { Button } from "@/components/ui/button";
-import { StatusPill } from "@/components/ui/status-pill";
+import { Button } from "./ui/button";
+import { StatusPill } from "./ui/status-pill";
 import {
   initialWorkspaceState,
   workspaceReducer,
-} from "@/lib/workspace-state.mjs";
+} from "../lib/workspace-state.mjs";
 
 const suggestedPrompts = [
   "What information would I need to verify a support issue?",
@@ -37,10 +37,10 @@ export function WorkspaceShell() {
 
         <div className="sidebar-section">
           <p className="sidebar-label">Workspace</p>
-          <button className="sidebar-nav-item is-active" type="button" aria-current="page">
+          <div className="sidebar-nav-item is-active" aria-current="page">
             <span className="nav-glyph" aria-hidden="true">▤</span>
             Conversation
-          </button>
+          </div>
           <button
             className="sidebar-nav-item is-disabled"
             type="button"
@@ -156,6 +156,9 @@ export function WorkspaceShell() {
               <label className="composer-label" htmlFor="message-draft">
                 Your message
               </label>
+              <span className="sr-only" id="composer-help">
+                The preview keeps text in page state only. It does not send or persist messages.
+              </span>
               <textarea
                 id="message-draft"
                 aria-describedby="composer-help"
@@ -187,8 +190,8 @@ export function WorkspaceShell() {
                       Clear draft
                     </Button>
                   ) : (
-                    <span id="composer-help" className="composer-hint">
-                      Text stays local in preview mode.
+                    <span className="composer-hint">
+                      Text stays in this page only.
                     </span>
                   )}
                 </div>
@@ -202,7 +205,7 @@ export function WorkspaceShell() {
               </div>
               {hasDraft ? (
                 <p className="draft-status" aria-live="polite">
-                  Draft saved in this page only. Sending is disabled until the API conversation flow is implemented.
+                  Draft held in this page state only. It is not persisted or sent.
                 </p>
               ) : null}
             </div>
@@ -217,25 +220,19 @@ export function WorkspaceShell() {
               <span className="inspector-count">0</span>
             </div>
 
-            <div className="inspector-tabs" role="tablist" aria-label="Inspector panels">
+            <div className="inspector-tabs" role="group" aria-label="Inspector panels">
               <button
-                aria-controls="inspector-content"
-                aria-selected={state.inspector === "evidence"}
+                aria-pressed={state.inspector === "evidence"}
                 className={state.inspector === "evidence" ? "inspector-tab is-selected" : "inspector-tab"}
-                id="evidence-tab"
                 onClick={() => dispatch({ type: "select-inspector", value: "evidence" })}
-                role="tab"
                 type="button"
               >
                 Evidence
               </button>
               <button
-                aria-controls="inspector-content"
-                aria-selected={state.inspector === "activity"}
+                aria-pressed={state.inspector === "activity"}
                 className={state.inspector === "activity" ? "inspector-tab is-selected" : "inspector-tab"}
-                id="activity-tab"
                 onClick={() => dispatch({ type: "select-inspector", value: "activity" })}
-                role="tab"
                 type="button"
               >
                 Activity
@@ -243,10 +240,9 @@ export function WorkspaceShell() {
             </div>
 
             <div
-              aria-labelledby={state.inspector === "evidence" ? "evidence-tab" : "activity-tab"}
+              aria-live="polite"
               className="inspector-content"
               id="inspector-content"
-              role="tabpanel"
               tabIndex={0}
             >
               {state.inspector === "evidence" ? (
