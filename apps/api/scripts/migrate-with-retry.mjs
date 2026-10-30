@@ -28,8 +28,12 @@ function runMigration() {
       stdio: ["ignore", "pipe", "pipe"],
       shell: process.platform === "win32",
     });
-    child.stdout.on("data", (chunk) => { stdout += chunk.toString(); });
-    child.stderr.on("data", (chunk) => { stderr += chunk.toString(); });
+    child.stdout.on("data", (chunk) => {
+      stdout += chunk.toString();
+    });
+    child.stderr.on("data", (chunk) => {
+      stderr += chunk.toString();
+    });
     child.once("error", (error) => finish({ code: 1, stdout, stderr: stderr + error.message + "\n" }));
     child.once("close", (code) => finish({ code: code ?? 1, stdout, stderr }));
   });
@@ -37,11 +41,12 @@ function runMigration() {
 
 for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
   const result = await runMigration();
+  const attemptLabel = attempt + "/" + maxAttempts;
   if (result.code === 0) {
     if (result.stdout) process.stdout.write(result.stdout);
     if (result.stderr) process.stderr.write(result.stderr);
     if (attempt > 1) {
-      console.log("Database migration succeeded on retry attempt " + attempt + "/" + maxAttempts + ".");
+      console.log("Migration succeeded on attempt " + attemptLabel + ".");
     }
     process.exitCode = 0;
     break;
@@ -49,8 +54,7 @@ for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
 
   if (attempt < maxAttempts) {
     console.warn(
-      "Database migration attempt " + attempt + "/" + maxAttempts +
-      " failed; retrying in " + retryDelayMs + " ms. The full error will be shown if all attempts fail.",
+      "Migration attempt " + attemptLabel + " failed; retrying in " + retryDelayMs + " ms.",
     );
     await delay(retryDelayMs);
     continue;
