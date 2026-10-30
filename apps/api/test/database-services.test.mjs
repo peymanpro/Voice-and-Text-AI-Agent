@@ -168,10 +168,7 @@ test("persists conversations and messages with enforced session ownership", asyn
       conversations.createConversation(ownerSession.token, "x".repeat(201)),
       BadRequestException,
     );
-    await assert.rejects(
-      sessions.issueSession(0),
-      BadRequestException,
-    );
+    await assert.rejects(sessions.issueSession(0), BadRequestException);
 
     await sessionRepository.update(
       { id: otherSession.sessionId },
