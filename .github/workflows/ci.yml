@@ -41,6 +41,12 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Temporary format database config test
+        run: |
+          pnpm exec prettier --write apps/api/test/database-config.test.mjs
+          echo "FILE-BEGIN:apps/api/test/database-config.test.mjs"
+          cat apps/api/test/database-config.test.mjs
+          echo "FILE-END:apps/api/test/database-config.test.mjs"
       - name: Check formatting
         run: pnpm format:check
 
