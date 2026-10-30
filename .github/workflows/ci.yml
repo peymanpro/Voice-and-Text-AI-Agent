@@ -41,7 +41,6 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-          done
 
       - name: Check formatting
         run: pnpm format:check
