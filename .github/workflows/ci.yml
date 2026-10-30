@@ -41,13 +41,6 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Temporary Prettier formatting diagnostic
-        run: |
-          pnpm exec prettier --write apps/web/app/globals.css apps/web/app/page.tsx apps/web/components/workspace-shell.tsx apps/web/test/workspace-state.test.mjs
-          for file in apps/web/app/globals.css apps/web/app/page.tsx apps/web/components/workspace-shell.tsx apps/web/test/workspace-state.test.mjs; do
-            echo "FILE-BEGIN:$file"
-            cat "$file"
-            echo "FILE-END:$file"
           done
 
       - name: Check formatting
