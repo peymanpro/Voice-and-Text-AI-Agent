@@ -43,7 +43,8 @@ for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     if (attempt > 1) {
       console.log("Database migration succeeded on retry attempt " + attempt + "/" + maxAttempts + ".");
     }
-    process.exit(0);
+    process.exitCode = 0;
+    break;
   }
 
   if (attempt < maxAttempts) {
