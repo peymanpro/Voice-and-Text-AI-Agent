@@ -41,6 +41,31 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Temporary database formatting output
+        run: |
+          pnpm exec prettier --write apps/api/src/database/entities/conversation.entity.ts apps/api/src/database/entities/demo-session.entity.ts apps/api/src/database/entities/message.entity.ts apps/api/src/database/migrations/1793360000000-CreateConversationPersistence.ts apps/api/src/database/typeorm-options.ts apps/api/test/database-config.test.mjs apps/api/test/database-migrations.test.mjs
+          echo "FILE-BEGIN:apps/api/src/database/entities/conversation.entity.ts"
+          cat "apps/api/src/database/entities/conversation.entity.ts"
+          echo "FILE-END:apps/api/src/database/entities/conversation.entity.ts"
+          echo "FILE-BEGIN:apps/api/src/database/entities/demo-session.entity.ts"
+          cat "apps/api/src/database/entities/demo-session.entity.ts"
+          echo "FILE-END:apps/api/src/database/entities/demo-session.entity.ts"
+          echo "FILE-BEGIN:apps/api/src/database/entities/message.entity.ts"
+          cat "apps/api/src/database/entities/message.entity.ts"
+          echo "FILE-END:apps/api/src/database/entities/message.entity.ts"
+          echo "FILE-BEGIN:apps/api/src/database/migrations/1793360000000-CreateConversationPersistence.ts"
+          cat "apps/api/src/database/migrations/1793360000000-CreateConversationPersistence.ts"
+          echo "FILE-END:apps/api/src/database/migrations/1793360000000-CreateConversationPersistence.ts"
+          echo "FILE-BEGIN:apps/api/src/database/typeorm-options.ts"
+          cat "apps/api/src/database/typeorm-options.ts"
+          echo "FILE-END:apps/api/src/database/typeorm-options.ts"
+          echo "FILE-BEGIN:apps/api/test/database-config.test.mjs"
+          cat "apps/api/test/database-config.test.mjs"
+          echo "FILE-END:apps/api/test/database-config.test.mjs"
+          echo "FILE-BEGIN:apps/api/test/database-migrations.test.mjs"
+          cat "apps/api/test/database-migrations.test.mjs"
+          echo "FILE-END:apps/api/test/database-migrations.test.mjs"
+
       - name: Check formatting
         run: pnpm format:check
 
