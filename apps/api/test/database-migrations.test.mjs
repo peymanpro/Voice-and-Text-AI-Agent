@@ -215,10 +215,12 @@ test(
       assert.equal(serviceMessageOne.sequence, 1);
       assert.equal(serviceMessageTwo.sequence, 2);
       assert.equal(
-        (await conversationService.getConversation(
-          issuedSession.token,
-          serviceConversation.id,
-        )).messages.length,
+        (
+          await conversationService.getConversation(
+            issuedSession.token,
+            serviceConversation.id,
+          )
+        ).messages.length,
         2,
       );
 
