@@ -11,6 +11,8 @@ import {
   MessageEntity,
 } from "../dist/database/entities/index.js";
 import { CreateConversationPersistence1793360000000 } from "../dist/database/migrations/1793360000000-CreateConversationPersistence.js";
+import { ConversationPersistenceService } from "../dist/database/persistence/conversation-persistence.service.js";
+import { DemoSessionService } from "../dist/database/persistence/demo-session.service.js";
 import { createTypeOrmOptions } from "../dist/database/typeorm-options.js";
 
 function withLocalDatabaseEnvironment(callback) {
@@ -184,6 +186,41 @@ test(
       const applied = await dataSource.runMigrations();
       assert.equal(applied.length, 1);
       assert.equal(await dataSource.showMigrations(), false);
+
+      const sessionService = new DemoSessionService(
+        dataSource.getRepository(DemoSessionEntity),
+      );
+      const conversationService = new ConversationPersistenceService(
+        dataSource.getRepository(ConversationEntity),
+        dataSource.getRepository(MessageEntity),
+        sessionService,
+        dataSource,
+      );
+      const issuedSession = await sessionService.issueSession();
+      const serviceConversation = await conversationService.createConversation(
+        issuedSession.token,
+        "PostgreSQL service integration",
+      );
+      const serviceMessageOne = await conversationService.appendMessage(
+        issuedSession.token,
+        serviceConversation.id,
+        { role: "user", content: "First PostgreSQL service message." },
+      );
+      const serviceMessageTwo = await conversationService.appendMessage(
+        issuedSession.token,
+        serviceConversation.id,
+        { role: "assistant", content: "Second PostgreSQL service message." },
+      );
+
+      assert.equal(serviceMessageOne.sequence, 1);
+      assert.equal(serviceMessageTwo.sequence, 2);
+      assert.equal(
+        (await conversationService.getConversation(
+          issuedSession.token,
+          serviceConversation.id,
+        )).messages.length,
+        2,
+      );
 
       const tokenHash = createHash("sha256")
         .update("postgres-test-session-token")
