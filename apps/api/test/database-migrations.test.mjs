@@ -10,6 +10,7 @@ import {
   DemoSessionEntity,
   MessageEntity,
 } from "../dist/database/entities/index.js";
+import { CreateConversationPersistence1793360000000 } from "../dist/database/migrations/1793360000000-CreateConversationPersistence.js";
 import { createTypeOrmOptions } from "../dist/database/typeorm-options.js";
 
 function withLocalDatabaseEnvironment(callback) {
@@ -158,3 +159,113 @@ test("stores session token digests rather than raw session tokens", () => {
   assert.equal(digest.length, 64);
   assert.notEqual(digest, rawToken);
 });
+
+
+const postgresTestUrl = process.env.TEST_DATABASE_URL;
+
+test(
+  "creates, queries, constrains, and rolls back the schema on PostgreSQL",
+  { skip: !postgresTestUrl },
+  async () => {
+    const dataSource = new DataSource({
+      type: "postgres",
+      url: postgresTestUrl,
+      entities: [DemoSessionEntity, ConversationEntity, MessageEntity],
+      migrations: [CreateConversationPersistence1793360000000],
+      migrationsRun: false,
+      migrationsTableName: "typeorm_migrations",
+      synchronize: false,
+      logging: false,
+    });
+
+    try {
+      await dataSource.initialize();
+
+      assert.equal(await dataSource.showMigrations(), true);
+      const applied = await dataSource.runMigrations();
+      assert.equal(applied.length, 1);
+      assert.equal(await dataSource.showMigrations(), false);
+
+      const tokenHash = createHash("sha256")
+        .update("postgres-test-session-token")
+        .digest("hex");
+      const session = dataSource.getRepository(DemoSessionEntity).create({
+        tokenHash,
+      });
+      await dataSource.getRepository(DemoSessionEntity).save(session);
+
+      const conversationRepository = dataSource.getRepository(ConversationEntity);
+      const conversation = conversationRepository.create({
+        session,
+        title: "PostgreSQL integration",
+        createdAt: "2026-10-30T00:00:00.000Z",
+        updatedAt: "2026-10-30T00:00:00.000Z",
+      });
+      await conversationRepository.save(conversation);
+
+      const messageRepository = dataSource.getRepository(MessageEntity);
+      await messageRepository.save(
+        messageRepository.create({
+          conversation,
+          role: "user",
+          content: "Persisted on PostgreSQL.",
+          sequence: 1,
+          status: "complete",
+          createdAt: "2026-10-30T00:00:01.000Z",
+        }),
+      );
+
+      const stored = await conversationRepository.findOne({
+        where: { id: conversation.id },
+        relations: { session: true, messages: true },
+      });
+
+      assert.ok(stored);
+      assert.equal(stored.session.id, session.id);
+      assert.equal(stored.messages.length, 1);
+      assert.equal(stored.messages[0].content, "Persisted on PostgreSQL.");
+
+      await assert.rejects(
+        messageRepository.save(
+          messageRepository.create({
+            conversation,
+            role: "assistant",
+            content: "Duplicate sequence",
+            sequence: 1,
+            status: "complete",
+            createdAt: "2026-10-30T00:00:02.000Z",
+          }),
+        ),
+      );
+
+      await assert.rejects(
+        messageRepository.save(
+          messageRepository.create({
+            conversation,
+            role: "administrator",
+            content: "Invalid role",
+            sequence: 2,
+            status: "complete",
+            createdAt: "2026-10-30T00:00:03.000Z",
+          }),
+        ),
+      );
+
+      await dataSource.undoLastMigration();
+      assert.equal(await dataSource.showMigrations(), true);
+
+      const remainingTables = await dataSource.query(
+        "SELECT table_name FROM information_schema.tables WHERE table_schema = current_schema()",
+      );
+      const remainingNames = remainingTables.map((row) => row.table_name);
+
+      assert.equal(remainingNames.includes("demo_sessions"), false);
+      assert.equal(remainingNames.includes("conversations"), false);
+      assert.equal(remainingNames.includes("messages"), false);
+    } finally {
+      if (dataSource.isInitialized) {
+        await dataSource.destroy();
+      }
+    }
+  },
+);
