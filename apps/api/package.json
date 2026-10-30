@@ -12,6 +12,7 @@
     "lint": "eslint src test --max-warnings=0",
     "test": "pnpm build && node --test test/*.test.mjs",
     "migration:run": "typeorm migration:run -d dist/database/data-source.js",
+    "migration:run:retry": "node scripts/migrate-with-retry.mjs",
     "migration:show": "typeorm migration:show -d dist/database/data-source.js"
   },
   "dependencies": {
