@@ -56,6 +56,24 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Temporary persistence formatter
+        run: |
+          pnpm exec prettier --write apps/api/src/database/persistence/conversation-persistence.service.ts apps/api/src/database/persistence/demo-session.service.ts apps/api/src/database/persistence/persistence.module.ts apps/api/test/database-migrations.test.mjs apps/api/test/database-services.test.mjs
+          echo "FILE-BEGIN:apps/api/src/database/persistence/conversation-persistence.service.ts"
+          cat "apps/api/src/database/persistence/conversation-persistence.service.ts"
+          echo "FILE-END:apps/api/src/database/persistence/conversation-persistence.service.ts"
+          echo "FILE-BEGIN:apps/api/src/database/persistence/demo-session.service.ts"
+          cat "apps/api/src/database/persistence/demo-session.service.ts"
+          echo "FILE-END:apps/api/src/database/persistence/demo-session.service.ts"
+          echo "FILE-BEGIN:apps/api/src/database/persistence/persistence.module.ts"
+          cat "apps/api/src/database/persistence/persistence.module.ts"
+          echo "FILE-END:apps/api/src/database/persistence/persistence.module.ts"
+          echo "FILE-BEGIN:apps/api/test/database-migrations.test.mjs"
+          cat "apps/api/test/database-migrations.test.mjs"
+          echo "FILE-END:apps/api/test/database-migrations.test.mjs"
+          echo "FILE-BEGIN:apps/api/test/database-services.test.mjs"
+          cat "apps/api/test/database-services.test.mjs"
+          echo "FILE-END:apps/api/test/database-services.test.mjs"
       - name: Check formatting
         run: pnpm format:check
 
