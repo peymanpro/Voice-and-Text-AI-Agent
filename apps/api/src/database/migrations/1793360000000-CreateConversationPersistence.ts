@@ -7,9 +7,7 @@ import {
   TableIndex,
 } from "typeorm";
 
-export class CreateConversationPersistence1793360000000
-  implements MigrationInterface
-{
+export class CreateConversationPersistence1793360000000 implements MigrationInterface {
   name = "CreateConversationPersistence1793360000000";
 
   async up(queryRunner: QueryRunner): Promise<void> {
@@ -116,7 +114,7 @@ export class CreateConversationPersistence1793360000000
         checks: [
           new TableCheck({
             name: "CHK_conversations_status",
-                        expression: `"status" IN ('active', 'archived')`,
+            expression: `"status" IN ('active', 'archived')`,
           }),
         ],
       }),
@@ -189,15 +187,15 @@ export class CreateConversationPersistence1793360000000
         checks: [
           new TableCheck({
             name: "CHK_messages_role",
-                        expression: `"role" IN ('user', 'assistant', 'system', 'tool')`,
+            expression: `"role" IN ('user', 'assistant', 'system', 'tool')`,
           }),
           new TableCheck({
             name: "CHK_messages_status",
-                        expression: `"status" IN ('pending', 'complete', 'failed')`,
+            expression: `"status" IN ('pending', 'complete', 'failed')`,
           }),
           new TableCheck({
             name: "CHK_messages_sequence",
-                        expression: `"sequence" > 0`,
+            expression: `"sequence" > 0`,
           }),
         ],
       }),
