@@ -17,9 +17,7 @@ type WorkspaceShellProps = {
   initialInspector?: "evidence" | "activity";
 };
 
-export function WorkspaceShell({
-  initialInspector = "evidence",
-}: WorkspaceShellProps) {
+export function WorkspaceShell({ initialInspector = "evidence" }: WorkspaceShellProps) {
   const [state, dispatch] = useReducer(workspaceReducer, {
     ...initialWorkspaceState,
     inspector: initialInspector,
