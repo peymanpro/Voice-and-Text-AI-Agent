@@ -117,6 +117,8 @@ pnpm --filter @voice-and-text-ai-agent/api dev
 
 The web application exposes two routes: `/` for the product landing page and `/workspace` for the conversation workspace preview. The workspace is intentionally disconnected from the API at this stage; draft text remains in page state only, with no persistence or provider calls.
 
+For database setup, choose the quick SQLite path or local PostgreSQL through Docker Compose as described in [docs/local-database.md](docs/local-database.md). The guide includes the exact migration commands and the disposable PostgreSQL test-database workflow.
+
 The web and API development commands run in separate terminals. In local development, the API uses an in-memory SQLite database when `DATABASE_URL` is not set. Set `DATABASE_URL` to a PostgreSQL connection string to exercise PostgreSQL locally. Production requires `DATABASE_URL`; it must never use local SQLite storage.
 
 To run only the web UI tests, use `pnpm --filter @voice-and-text-ai-agent/web test`. They exercise UI state transitions and server-rendered accessible component states without requiring an API key or database.
