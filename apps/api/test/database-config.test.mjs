@@ -65,7 +65,7 @@ test("uses an explicit local SQLite database path when configured", () => {
 });
 
 test("selects PostgreSQL for a valid PostgreSQL URL", () => {
-  const databaseUrl = "***db.example.test:5432/voice_agent";
+  const databaseUrl = "postgresql://db.example.test:5432/voice_agent";
 
   withEnvironment({ NODE_ENV: "production", DATABASE_URL: databaseUrl }, () => {
     const options = createTypeOrmOptions();
@@ -77,15 +77,15 @@ test("selects PostgreSQL for a valid PostgreSQL URL", () => {
   });
 });
 
-test("rejects an invalid database URL without echoing credentials", () => {
-  const invalidUrl = "postgresql://voice_user:private-secret:not-a-port/db";
+test("rejects an invalid database URL without echoing its value", () => {
+  const invalidUrl = "postgresql://db.example.test:invalid-port/voice_agent";
 
   withEnvironment({ NODE_ENV: "production", DATABASE_URL: invalidUrl }, () => {
     assert.throws(
       () => createTypeOrmOptions(),
       (error) => {
         assert.match(error.message, /valid PostgreSQL connection URL/);
-        assert.doesNotMatch(error.message, /private-secret/);
+        assert.doesNotMatch(error.message, /invalid-port/);
         return true;
       },
     );
@@ -94,7 +94,10 @@ test("rejects an invalid database URL without echoing credentials", () => {
 
 test("rejects non-PostgreSQL URLs", () => {
   withEnvironment(
-    { NODE_ENV: "development", DATABASE_URL: "***localhost/db" },
+    {
+      NODE_ENV: "development",
+      DATABASE_URL: "mysql://localhost/voice_agent",
+    },
     () => {
       assert.throws(createTypeOrmOptions, /postgres or postgresql protocol/);
     },
@@ -103,7 +106,7 @@ test("rejects non-PostgreSQL URLs", () => {
 
 test("rejects a PostgreSQL URL without a database name", () => {
   withEnvironment(
-    { NODE_ENV: "production", DATABASE_URL: "***localhost" },
+    { NODE_ENV: "production", DATABASE_URL: "postgresql://localhost" },
     () => {
       assert.throws(createTypeOrmOptions, /host and database name/);
     },
@@ -138,7 +141,7 @@ test("rejects ambiguous PostgreSQL and SQLite settings", () => {
   withEnvironment(
     {
       NODE_ENV: "development",
-      DATABASE_URL: "***localhost/voice_agent",
+      DATABASE_URL: "postgresql://localhost/voice_agent",
       SQLITE_DATABASE: "./local.sqlite",
     },
     () => {
