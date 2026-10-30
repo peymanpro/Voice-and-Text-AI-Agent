@@ -145,10 +145,7 @@ test("rejects ambiguous PostgreSQL and SQLite settings", () => {
       SQLITE_DATABASE: "./local.sqlite",
     },
     () => {
-      assert.throws(
-        createTypeOrmOptions,
-        /Set either DATABASE_URL or SQLITE_DATABASE/,
-      );
+      assert.throws(createTypeOrmOptions, /Set either DATABASE_URL or SQLITE_DATABASE/);
     },
   );
 });
