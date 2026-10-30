@@ -23,10 +23,7 @@ function validatePostgresUrl(databaseUrl: string): void {
     throw new Error("DATABASE_URL must be a valid PostgreSQL connection URL.");
   }
 
-  if (
-    parsedUrl.protocol !== "postgres:" &&
-    parsedUrl.protocol !== "postgresql:"
-  ) {
+  if (parsedUrl.protocol !== "postgres:" && parsedUrl.protocol !== "postgresql:") {
     throw new Error("DATABASE_URL must use the postgres or postgresql protocol.");
   }
 
@@ -41,9 +38,7 @@ export function createTypeOrmOptions(): DataSourceOptions {
   const hostedRuntime = isHostedRuntime();
 
   if (databaseUrl && sqliteDatabase) {
-    throw new Error(
-      "Set either DATABASE_URL or SQLITE_DATABASE, not both.",
-    );
+    throw new Error("Set either DATABASE_URL or SQLITE_DATABASE, not both.");
   }
 
   const commonOptions = {
