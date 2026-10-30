@@ -3,14 +3,8 @@ import { setTimeout as delay } from "node:timers/promises";
 import { fileURLToPath } from "node:url";
 
 const apiDirectory = fileURLToPath(new URL("../", import.meta.url));
-const maxAttempts = readPositiveInteger(
-  process.env.MIGRATION_MAX_ATTEMPTS,
-  20,
-);
-const retryDelayMs = readPositiveInteger(
-  process.env.MIGRATION_RETRY_DELAY_MS,
-  3000,
-);
+const maxAttempts = readPositiveInteger(process.env.MIGRATION_MAX_ATTEMPTS, 20);
+const retryDelayMs = readPositiveInteger(process.env.MIGRATION_RETRY_DELAY_MS, 3000);
 
 function readPositiveInteger(value, fallback) {
   if (value === undefined || value.trim() === "") {
