@@ -5,10 +5,7 @@ import { useReducer } from "react";
 
 import { Button } from "./ui/button";
 import { StatusPill } from "./ui/status-pill";
-import {
-  initialWorkspaceState,
-  workspaceReducer,
-} from "../lib/workspace-state.mjs";
+import { initialWorkspaceState, workspaceReducer } from "../lib/workspace-state.mjs";
 
 const suggestedPrompts = [
   "What information would I need to verify a support issue?",
@@ -17,10 +14,7 @@ const suggestedPrompts = [
 ];
 
 export function WorkspaceShell() {
-  const [state, dispatch] = useReducer(
-    workspaceReducer,
-    initialWorkspaceState,
-  );
+  const [state, dispatch] = useReducer(workspaceReducer, initialWorkspaceState);
   const hasDraft = state.draft.trim().length > 0;
 
   return (
@@ -38,7 +32,9 @@ export function WorkspaceShell() {
         <div className="sidebar-section">
           <p className="sidebar-label">Workspace</p>
           <div className="sidebar-nav-item is-active" aria-current="page">
-            <span className="nav-glyph" aria-hidden="true">▤</span>
+            <span className="nav-glyph" aria-hidden="true">
+              ▤
+            </span>
             Conversation
           </div>
           <button
@@ -47,7 +43,9 @@ export function WorkspaceShell() {
             disabled
             title="Knowledge browsing is planned for a later phase."
           >
-            <span className="nav-glyph" aria-hidden="true">▧</span>
+            <span className="nav-glyph" aria-hidden="true">
+              ▧
+            </span>
             Knowledge
             <span className="nav-soon">Soon</span>
           </button>
@@ -57,7 +55,9 @@ export function WorkspaceShell() {
             disabled
             title="Tool execution is planned for a later phase."
           >
-            <span className="nav-glyph" aria-hidden="true">⌘</span>
+            <span className="nav-glyph" aria-hidden="true">
+              ⌘
+            </span>
             Tool runs
             <span className="nav-soon">Soon</span>
           </button>
@@ -65,18 +65,26 @@ export function WorkspaceShell() {
 
         <div className="sidebar-divider" />
         <div className="sidebar-empty">
-          <span className="sidebar-empty-icon" aria-hidden="true">◌</span>
+          <span className="sidebar-empty-icon" aria-hidden="true">
+            ◌
+          </span>
           <p>No conversations yet</p>
-          <span>Your conversations will appear here when the runtime is connected.</span>
+          <span>
+            Your conversations will appear here when the runtime is connected.
+          </span>
         </div>
 
         <div className="sidebar-bottom">
-          <div className="sidebar-avatar" aria-hidden="true">P</div>
+          <div className="sidebar-avatar" aria-hidden="true">
+            P
+          </div>
           <div className="sidebar-account">
             <strong>Preview session</strong>
             <span>Local interface state only</span>
           </div>
-          <span className="sidebar-more" aria-hidden="true">···</span>
+          <span className="sidebar-more" aria-hidden="true">
+            ···
+          </span>
         </div>
       </aside>
 
@@ -95,18 +103,24 @@ export function WorkspaceShell() {
             <p className="eyebrow-text">CONVERSATION WORKSPACE</p>
             <h1 id="workspace-title">A clearer way to work through a question.</h1>
             <p className="workspace-intro">
-              Compose a draft and explore the interface. Sending, speech, retrieval,
-              and agent execution are not connected yet.
+              Compose a draft and explore the interface. Sending, speech, retrieval, and
+              agent execution are not connected yet.
             </p>
           </div>
-          <div className="workspace-heading-mark" aria-hidden="true">✳</div>
+          <div className="workspace-heading-mark" aria-hidden="true">
+            ✳
+          </div>
         </div>
 
         <div className="runtime-notice" role="status">
-          <span className="notice-icon" aria-hidden="true">i</span>
+          <span className="notice-icon" aria-hidden="true">
+            i
+          </span>
           <div>
             <strong>Agent runtime is not connected</strong>
-            <p>Your draft stays in this page. No message is sent and no model is called.</p>
+            <p>
+              Your draft stays in this page. No message is sent and no model is called.
+            </p>
           </div>
           <span className="notice-phase">Phase 02</span>
         </div>
@@ -157,7 +171,8 @@ export function WorkspaceShell() {
                 Your message
               </label>
               <span className="sr-only" id="composer-help">
-                The preview keeps text in page state only. It does not send or persist messages.
+                The preview keeps text in page state only. It does not send or persist
+                messages.
               </span>
               <textarea
                 id="message-draft"
@@ -190,14 +205,17 @@ export function WorkspaceShell() {
                       Clear draft
                     </Button>
                   ) : (
-                    <span className="composer-hint">
-                      Text stays in this page only.
-                    </span>
+                    <span className="composer-hint">Text stays in this page only.</span>
                   )}
                 </div>
                 <div className="composer-submit">
                   <span className="character-count">{state.draft.length}/2000</span>
-                  <Button disabled size="md" variant="primary" title="The agent API is not connected yet.">
+                  <Button
+                    disabled
+                    size="md"
+                    variant="primary"
+                    title="The agent API is not connected yet."
+                  >
                     Send
                     <span aria-hidden="true">↗</span>
                   </Button>
@@ -223,16 +241,28 @@ export function WorkspaceShell() {
             <div className="inspector-tabs" role="group" aria-label="Inspector panels">
               <button
                 aria-pressed={state.inspector === "evidence"}
-                className={state.inspector === "evidence" ? "inspector-tab is-selected" : "inspector-tab"}
-                onClick={() => dispatch({ type: "select-inspector", value: "evidence" })}
+                className={
+                  state.inspector === "evidence"
+                    ? "inspector-tab is-selected"
+                    : "inspector-tab"
+                }
+                onClick={() =>
+                  dispatch({ type: "select-inspector", value: "evidence" })
+                }
                 type="button"
               >
                 Evidence
               </button>
               <button
                 aria-pressed={state.inspector === "activity"}
-                className={state.inspector === "activity" ? "inspector-tab is-selected" : "inspector-tab"}
-                onClick={() => dispatch({ type: "select-inspector", value: "activity" })}
+                className={
+                  state.inspector === "activity"
+                    ? "inspector-tab is-selected"
+                    : "inspector-tab"
+                }
+                onClick={() =>
+                  dispatch({ type: "select-inspector", value: "activity" })
+                }
                 type="button"
               >
                 Activity
@@ -247,7 +277,9 @@ export function WorkspaceShell() {
             >
               {state.inspector === "evidence" ? (
                 <div className="inspector-empty">
-                  <span className="inspector-empty-icon" aria-hidden="true">◇</span>
+                  <span className="inspector-empty-icon" aria-hidden="true">
+                    ◇
+                  </span>
                   <h3>No evidence yet</h3>
                   <p>
                     Source excerpts and citations will appear here after a real
@@ -257,11 +289,13 @@ export function WorkspaceShell() {
                 </div>
               ) : (
                 <div className="inspector-empty">
-                  <span className="inspector-empty-icon" aria-hidden="true">⌁</span>
+                  <span className="inspector-empty-icon" aria-hidden="true">
+                    ⌁
+                  </span>
                   <h3>No activity yet</h3>
                   <p>
-                    Operational events will be listed here when the agent runtime
-                    begins processing a conversation.
+                    Operational events will be listed here when the agent runtime begins
+                    processing a conversation.
                   </p>
                   <span className="inspector-footnote">NO TOOLS HAVE RUN</span>
                 </div>
