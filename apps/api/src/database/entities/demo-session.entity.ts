@@ -7,7 +7,7 @@ import type { ConversationEntity } from "./conversation.entity.js";
 @Index("UQ_demo_sessions_token_hash", ["tokenHash"], { unique: true })
 export class DemoSessionEntity {
   @PrimaryColumn({ type: "varchar", length: 36 })
-  id = randomUUID();
+  id: string = randomUUID();
 
   @Column({ name: "token_hash", type: "varchar", length: 64 })
   tokenHash!: string;
