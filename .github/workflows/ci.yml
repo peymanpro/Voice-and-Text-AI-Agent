@@ -41,6 +41,12 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Temporary workspace formatting output
+        run: |
+          pnpm exec prettier --write apps/web/components/workspace-shell.tsx
+          echo "FILE-BEGIN:apps/web/components/workspace-shell.tsx"
+          cat apps/web/components/workspace-shell.tsx
+          echo "FILE-END:apps/web/components/workspace-shell.tsx"
       - name: Check formatting
         run: pnpm format:check
 
