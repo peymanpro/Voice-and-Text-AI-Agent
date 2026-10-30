@@ -20,7 +20,8 @@
   --radius-md: 14px;
   --radius-lg: 22px;
   --shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.22);
-  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans:
+    "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
@@ -103,9 +104,15 @@ button:disabled {
   background: var(--mint);
 }
 
-.brand-symbol span:nth-child(1) { height: 9px; }
-.brand-symbol span:nth-child(2) { height: 17px; }
-.brand-symbol span:nth-child(3) { height: 12px; }
+.brand-symbol span:nth-child(1) {
+  height: 9px;
+}
+.brand-symbol span:nth-child(2) {
+  height: 17px;
+}
+.brand-symbol span:nth-child(3) {
+  height: 12px;
+}
 
 .brand-name {
   color: var(--text);
@@ -126,16 +133,31 @@ button:disabled {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease, color 160ms ease, transform 160ms ease;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
 }
 
 .button:hover:not(:disabled) {
   transform: translateY(-1px);
 }
 
-.button-sm { min-height: 34px; padding: 0 12px; font-size: 11px; }
-.button-md { min-height: 42px; padding: 0 16px; }
-.button-lg { min-height: 48px; padding: 0 19px; font-size: 13px; }
+.button-sm {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 11px;
+}
+.button-md {
+  min-height: 42px;
+  padding: 0 16px;
+}
+.button-lg {
+  min-height: 48px;
+  padding: 0 19px;
+  font-size: 13px;
+}
 
 .button-primary {
   background: var(--mint);
@@ -199,12 +221,16 @@ button:disabled {
   color: var(--mint);
 }
 
-.status-pill-success .status-pill-dot { background: var(--mint); }
+.status-pill-success .status-pill-dot {
+  background: var(--mint);
+}
 .status-pill-warning {
   border-color: rgba(229, 197, 138, 0.25);
   color: var(--amber);
 }
-.status-pill-warning .status-pill-dot { background: var(--amber); }
+.status-pill-warning .status-pill-dot {
+  background: var(--amber);
+}
 
 /* Marketing landing page */
 
@@ -430,10 +456,22 @@ button:disabled {
   font-size: 8px;
 }
 
-.node-input { top: 14%; left: 7%; }
-.node-evidence { top: 18%; right: 5%; }
-.node-tools { bottom: 17%; left: 6%; }
-.node-result { right: 6%; bottom: 14%; }
+.node-input {
+  top: 14%;
+  left: 7%;
+}
+.node-evidence {
+  top: 18%;
+  right: 5%;
+}
+.node-tools {
+  bottom: 17%;
+  left: 6%;
+}
+.node-result {
+  right: 6%;
+  bottom: 14%;
+}
 
 .visual-caption {
   position: absolute;
@@ -969,8 +1007,15 @@ button:disabled {
   box-shadow: 0 0 12px rgba(155, 228, 207, 0.45);
 }
 
-.orbit-dot-one { top: 5px; right: 10px; }
-.orbit-dot-two { bottom: 9px; left: 2px; background: var(--violet); }
+.orbit-dot-one {
+  top: 5px;
+  right: 10px;
+}
+.orbit-dot-two {
+  bottom: 9px;
+  left: 2px;
+  background: var(--violet);
+}
 
 .transcript-empty h3 {
   margin: 0;
@@ -1030,7 +1075,9 @@ button:disabled {
   line-height: 1.5;
   text-align: left;
   cursor: pointer;
-  transition: border-color 150ms ease, background 150ms ease;
+  transition:
+    border-color 150ms ease,
+    background 150ms ease;
 }
 
 .suggestion-button:hover {
@@ -1247,16 +1294,30 @@ button:disabled {
 /* Responsive layouts */
 
 @media (max-width: 1020px) {
-  .marketing-page { padding: 0 28px; }
+  .marketing-page {
+    padding: 0 28px;
+  }
   .marketing-hero {
     grid-template-columns: minmax(0, 1fr) minmax(310px, 0.9fr);
     gap: 18px;
   }
-  .marketing-hero h1 { font-size: clamp(48px, 6vw, 68px); }
-  .hero-visual { min-height: 390px; }
-  .visual-node { min-width: 123px; padding: 9px; }
-  .workspace-main { padding-right: 23px; padding-left: 23px; }
-  .workspace-panels { grid-template-columns: minmax(0, 1fr) 255px; }
+  .marketing-hero h1 {
+    font-size: clamp(48px, 6vw, 68px);
+  }
+  .hero-visual {
+    min-height: 390px;
+  }
+  .visual-node {
+    min-width: 123px;
+    padding: 9px;
+  }
+  .workspace-main {
+    padding-right: 23px;
+    padding-left: 23px;
+  }
+  .workspace-panels {
+    grid-template-columns: minmax(0, 1fr) 255px;
+  }
 }
 
 @media (max-width: 820px) {
@@ -1264,21 +1325,38 @@ button:disabled {
     grid-template-columns: 1fr auto;
     gap: 10px;
   }
-  .marketing-nav { display: none; }
+  .marketing-nav {
+    display: none;
+  }
   .marketing-hero {
     grid-template-columns: 1fr;
     padding-top: 67px;
   }
-  .hero-copy-column { max-width: 700px; }
+  .hero-copy-column {
+    max-width: 700px;
+  }
   .hero-visual {
     min-height: 390px;
     margin-top: 14px;
   }
-  .section-header { align-items: flex-start; flex-direction: column; gap: 13px; }
-  .capability-grid { grid-template-columns: 1fr; }
-  .capability-card { min-height: 0; }
-  .principles-section { grid-template-columns: 1fr; gap: 28px; }
-  .workspace-app { grid-template-columns: 1fr; }
+  .section-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 13px;
+  }
+  .capability-grid {
+    grid-template-columns: 1fr;
+  }
+  .capability-card {
+    min-height: 0;
+  }
+  .principles-section {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .workspace-app {
+    grid-template-columns: 1fr;
+  }
   .workspace-sidebar {
     position: static;
     min-height: 0;
@@ -1290,42 +1368,106 @@ button:disabled {
     border-right: 0;
     border-bottom: 1px solid var(--border);
   }
-  .workspace-sidebar .brand-lockup { margin: 0; }
+  .workspace-sidebar .brand-lockup {
+    margin: 0;
+  }
   .sidebar-section,
   .sidebar-divider,
-  .sidebar-empty { display: none; }
+  .sidebar-empty {
+    display: none;
+  }
   .sidebar-bottom {
     margin: 0;
     padding: 0;
     border: 0;
   }
-  .workspace-panels { grid-template-columns: 1fr; }
-  .conversation-panel { min-height: 590px; }
-  .inspector-content { min-height: 215px; }
+  .workspace-panels {
+    grid-template-columns: 1fr;
+  }
+  .conversation-panel {
+    min-height: 590px;
+  }
+  .inspector-content {
+    min-height: 215px;
+  }
 }
 
 @media (max-width: 560px) {
-  .marketing-page { padding: 0 18px; }
-  .marketing-header { min-height: 72px; }
-  .marketing-header .header-cta { min-height: 33px; padding: 0 9px; font-size: 9px; }
-  .marketing-hero { min-height: 0; padding: 60px 0 57px; }
-  .marketing-hero h1 { font-size: clamp(45px, 12vw, 60px); }
-  .marketing-lead { font-size: 13px; }
-  .hero-cta-row { align-items: flex-start; flex-direction: column; gap: 17px; }
-  .hero-visual { min-height: 335px; }
-  .orbit-large { width: 250px; height: 250px; }
-  .orbit-small { width: 166px; height: 166px; }
-  .visual-node { min-width: 112px; padding: 8px; gap: 7px; }
-  .visual-node-icon { width: 24px; height: 24px; }
-  .visual-node strong { font-size: 8px; }
-  .visual-node small { font-size: 7px; }
-  .node-input { top: 12%; left: 3%; }
-  .node-evidence { top: 17%; right: 2%; }
-  .node-tools { bottom: 18%; left: 2%; }
-  .node-result { right: 2%; bottom: 13%; }
+  .marketing-page {
+    padding: 0 18px;
+  }
+  .marketing-header {
+    min-height: 72px;
+  }
+  .marketing-header .header-cta {
+    min-height: 33px;
+    padding: 0 9px;
+    font-size: 9px;
+  }
+  .marketing-hero {
+    min-height: 0;
+    padding: 60px 0 57px;
+  }
+  .marketing-hero h1 {
+    font-size: clamp(45px, 12vw, 60px);
+  }
+  .marketing-lead {
+    font-size: 13px;
+  }
+  .hero-cta-row {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 17px;
+  }
+  .hero-visual {
+    min-height: 335px;
+  }
+  .orbit-large {
+    width: 250px;
+    height: 250px;
+  }
+  .orbit-small {
+    width: 166px;
+    height: 166px;
+  }
+  .visual-node {
+    min-width: 112px;
+    padding: 8px;
+    gap: 7px;
+  }
+  .visual-node-icon {
+    width: 24px;
+    height: 24px;
+  }
+  .visual-node strong {
+    font-size: 8px;
+  }
+  .visual-node small {
+    font-size: 7px;
+  }
+  .node-input {
+    top: 12%;
+    left: 3%;
+  }
+  .node-evidence {
+    top: 17%;
+    right: 2%;
+  }
+  .node-tools {
+    bottom: 18%;
+    left: 2%;
+  }
+  .node-result {
+    right: 2%;
+    bottom: 13%;
+  }
   .section-header h2,
-  .principles-heading h2 { font-size: 28px; }
-  .principles-section { padding: 48px 0; }
+  .principles-heading h2 {
+    font-size: 28px;
+  }
+  .principles-section {
+    padding: 48px 0;
+  }
   .marketing-footer {
     align-items: flex-start;
     flex-direction: column;
@@ -1333,26 +1475,75 @@ button:disabled {
     gap: 8px;
     padding: 19px 0;
   }
-  .workspace-sidebar { padding: 11px 14px; }
-  .workspace-sidebar .brand-name { font-size: 9px; }
-  .workspace-sidebar .sidebar-avatar { width: 26px; height: 26px; }
-  .sidebar-account span { display: none; }
-  .workspace-main { padding: 0 13px 14px; }
-  .workspace-heading { align-items: flex-start; padding: 27px 0 19px; }
-  .workspace-heading h1 { font-size: 25px; }
-  .workspace-heading-mark { width: 39px; height: 39px; border-radius: 12px; }
-  .runtime-notice { align-items: flex-start; padding: 11px; }
-  .notice-phase { display: none; }
-  .conversation-panel { min-height: 0; padding: 13px; }
-  .transcript-empty { min-height: 390px; padding: 28px 5px; }
-  .suggested-prompts { align-items: stretch; flex-direction: column; }
-  .suggestion-button { width: 100%; }
-  .composer { padding: 10px; }
-  .composer-footer { align-items: flex-end; }
-  .composer-tools { min-width: 0; }
-  .composer-submit { gap: 6px; }
-  .character-count { display: none; }
-  .workspace-footer { flex-direction: column; gap: 7px; }
+  .workspace-sidebar {
+    padding: 11px 14px;
+  }
+  .workspace-sidebar .brand-name {
+    font-size: 9px;
+  }
+  .workspace-sidebar .sidebar-avatar {
+    width: 26px;
+    height: 26px;
+  }
+  .sidebar-account span {
+    display: none;
+  }
+  .workspace-main {
+    padding: 0 13px 14px;
+  }
+  .workspace-heading {
+    align-items: flex-start;
+    padding: 27px 0 19px;
+  }
+  .workspace-heading h1 {
+    font-size: 25px;
+  }
+  .workspace-heading-mark {
+    width: 39px;
+    height: 39px;
+    border-radius: 12px;
+  }
+  .runtime-notice {
+    align-items: flex-start;
+    padding: 11px;
+  }
+  .notice-phase {
+    display: none;
+  }
+  .conversation-panel {
+    min-height: 0;
+    padding: 13px;
+  }
+  .transcript-empty {
+    min-height: 390px;
+    padding: 28px 5px;
+  }
+  .suggested-prompts {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .suggestion-button {
+    width: 100%;
+  }
+  .composer {
+    padding: 10px;
+  }
+  .composer-footer {
+    align-items: flex-end;
+  }
+  .composer-tools {
+    min-width: 0;
+  }
+  .composer-submit {
+    gap: 6px;
+  }
+  .character-count {
+    display: none;
+  }
+  .workspace-footer {
+    flex-direction: column;
+    gap: 7px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
