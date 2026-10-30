@@ -20,7 +20,7 @@ export type MessageStatus = "pending" | "complete" | "failed";
 })
 export class MessageEntity {
   @PrimaryColumn({ type: "varchar", length: 36 })
-  id = randomUUID();
+  id: string = randomUUID();
 
   @ManyToOne("ConversationEntity", "messages", { nullable: false, onDelete: "CASCADE" })
   @JoinColumn({ name: "conversation_id", referencedColumnName: "id" })
