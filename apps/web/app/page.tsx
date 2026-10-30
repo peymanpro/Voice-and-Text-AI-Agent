@@ -36,7 +36,11 @@ export default function Home() {
   return (
     <main className="marketing-page">
       <header className="marketing-header">
-        <Link className="brand-lockup" href="/" aria-label="Voice and Text AI Agent home">
+        <Link
+          className="brand-lockup"
+          href="/"
+          aria-label="Voice and Text AI Agent home"
+        >
           <span className="brand-symbol" aria-hidden="true">
             <span />
             <span />
@@ -49,7 +53,10 @@ export default function Home() {
           <a href="#principles">Principles</a>
           <Link href="/workspace">Workspace</Link>
         </nav>
-        <Link className="button button-secondary button-sm header-cta" href="/workspace">
+        <Link
+          className="button button-secondary button-sm header-cta"
+          href="/workspace"
+        >
           Open workspace <span aria-hidden="true">↗</span>
         </Link>
       </header>
@@ -69,9 +76,8 @@ export default function Home() {
             outcome.
           </h1>
           <p className="marketing-lead">
-            An engineering-focused agent experience built around evidence,
-            bounded actions, and operational clarity—not just a chat box with a
-            model behind it.
+            An engineering-focused agent experience built around evidence, bounded
+            actions, and operational clarity—not just a chat box with a model behind it.
           </p>
           <div className="hero-cta-row">
             <Link className="button button-primary button-lg" href="/workspace">
@@ -87,34 +93,60 @@ export default function Home() {
             </a>
           </div>
           <p className="hero-disclaimer">
-            Preview only. Conversation processing, model calls, retrieval, and
-            speech are not connected yet.
+            Preview only. Conversation processing, model calls, retrieval, and speech
+            are not connected yet.
           </p>
         </div>
 
-        <div className="hero-visual" role="img" aria-label="Illustration of the proposed agent workflow. This is not a live system.">
+        <div
+          className="hero-visual"
+          role="img"
+          aria-label="Illustration of the proposed agent workflow. This is not a live system."
+        >
           <div className="visual-orbit orbit-large" />
           <div className="visual-orbit orbit-small" />
           <div className="visual-center">
-            <span className="visual-center-mark" aria-hidden="true">✳</span>
+            <span className="visual-center-mark" aria-hidden="true">
+              ✳
+            </span>
             <strong>AGENT</strong>
             <span>CONTROLLED RUNTIME</span>
           </div>
           <div className="visual-node node-input">
-            <span className="visual-node-icon" aria-hidden="true">⌘</span>
-            <span><strong>Input</strong><small>Text / voice</small></span>
+            <span className="visual-node-icon" aria-hidden="true">
+              ⌘
+            </span>
+            <span>
+              <strong>Input</strong>
+              <small>Text / voice</small>
+            </span>
           </div>
           <div className="visual-node node-evidence">
-            <span className="visual-node-icon" aria-hidden="true">◇</span>
-            <span><strong>Evidence</strong><small>Sources</small></span>
+            <span className="visual-node-icon" aria-hidden="true">
+              ◇
+            </span>
+            <span>
+              <strong>Evidence</strong>
+              <small>Sources</small>
+            </span>
           </div>
           <div className="visual-node node-tools">
-            <span className="visual-node-icon" aria-hidden="true">↗</span>
-            <span><strong>Tools</strong><small>Allowlisted</small></span>
+            <span className="visual-node-icon" aria-hidden="true">
+              ↗
+            </span>
+            <span>
+              <strong>Tools</strong>
+              <small>Allowlisted</small>
+            </span>
           </div>
           <div className="visual-node node-result">
-            <span className="visual-node-icon" aria-hidden="true">✓</span>
-            <span><strong>Outcome</strong><small>Observable</small></span>
+            <span className="visual-node-icon" aria-hidden="true">
+              ✓
+            </span>
+            <span>
+              <strong>Outcome</strong>
+              <small>Observable</small>
+            </span>
           </div>
           <div className="visual-caption">
             <span className="caption-dot" />
@@ -130,8 +162,8 @@ export default function Home() {
             <h2>Useful answers need more than fluency.</h2>
           </div>
           <p>
-            The interface is being built to make the boundaries of an agent
-            visible—from evidence to execution.
+            The interface is being built to make the boundaries of an agent visible—from
+            evidence to execution.
           </p>
         </div>
         <div className="capability-grid">
@@ -153,8 +185,8 @@ export default function Home() {
           <p className="section-kicker">TRUST BOUNDARIES</p>
           <h2>Clarity is part of the product.</h2>
           <p>
-            The browser owns presentation. The API owns validation, permissions,
-            agent execution, provider secrets, and database access.
+            The browser owns presentation. The API owns validation, permissions, agent
+            execution, provider secrets, and database access.
           </p>
           <Link className="text-link" href="/workspace">
             See the workspace preview <span aria-hidden="true">↗</span>
@@ -165,14 +197,18 @@ export default function Home() {
             <div className="principle-item" key={principle}>
               <span className="principle-index">0{index + 1}</span>
               <strong>{principle}</strong>
-              <span className="principle-arrow" aria-hidden="true">↗</span>
+              <span className="principle-arrow" aria-hidden="true">
+                ↗
+              </span>
             </div>
           ))}
         </div>
       </section>
 
       <footer className="marketing-footer">
-        <Link className="footer-brand" href="/">VOICE / TEXT</Link>
+        <Link className="footer-brand" href="/">
+          VOICE / TEXT
+        </Link>
         <span>Next.js · NestJS · TypeORM · PostgreSQL</span>
         <span>Built in tested, explicit phases.</span>
       </footer>
