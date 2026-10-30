@@ -56,12 +56,6 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Temporary format PostgreSQL integration test
-        run: |
-          pnpm exec prettier --write apps/api/test/database-migrations.test.mjs
-          echo "FILE-BEGIN:apps/api/test/database-migrations.test.mjs"
-          cat apps/api/test/database-migrations.test.mjs
-          echo "FILE-END:apps/api/test/database-migrations.test.mjs"
       - name: Check formatting
         run: pnpm format:check
 
