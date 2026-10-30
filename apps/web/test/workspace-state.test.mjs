@@ -68,7 +68,16 @@ test("renders the empty conversation and honest preview state", () => {
   assert.match(html, /Agent runtime is not connected/);
   assert.match(html, /No message is sent and no model is called\./);
   assert.match(html, /No evidence yet/);
+  assert.doesNotMatch(html, /No activity yet/);
+});
+
+test("renders the activity empty state when the activity panel is selected", () => {
+  const html = renderToStaticMarkup(
+    createElement(WorkspaceShell, { initialInspector: "activity" }),
+  );
+
   assert.match(html, /No activity yet/);
+  assert.match(html, /NO TOOLS HAVE RUN/);
 });
 
 test("keeps unavailable send and voice controls disabled and labelled", () => {
