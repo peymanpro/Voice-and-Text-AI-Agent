@@ -2,7 +2,7 @@
 
 ## Current status
 
-The repository is one pnpm monorepo with separate workspaces: `apps/web` and `apps/api`. The Vercel deployment at [voice-and-text-ai-agent.vercel.app](https://voice-and-text-ai-agent.vercel.app) currently exposes the Next.js shell only. Railway has a provisioned API service and PostgreSQL service, but the first API deployment failed during the TypeORM pre-deploy migration while PostgreSQL was starting. Until `/health/ready` and a real API request are verified, the backend must not be described as online or as supporting end-to-end agent behavior.
+The repository is one pnpm monorepo with separate workspaces: `apps/web` and `apps/api`. The Next.js shell is deployed at [voice-and-text-ai-agent.vercel.app](https://voice-and-text-ai-agent.vercel.app); the NestJS API shell is deployed at [voice-and-text-ai-agent-api-production.up.railway.app](https://voice-and-text-ai-agent-api-production.up.railway.app). Railway reports the latest API deployment as successful with `/health/ready` configured as its readiness check. The first deployment failed while PostgreSQL was cold-starting; the bounded migration retry subsequently connected, confirmed there were no pending migrations, and allowed the API to start. `WEB_ORIGINS` is configured for the deployed web origin. This only verifies the API/database health shell: chat endpoints, agent orchestration, retrieval, STT/TTS, and an end-to-end web-to-API flow remain unimplemented.
 
 ## Runtime boundary
 
@@ -50,6 +50,7 @@ A single GitHub repository does not mean the web and API run as one process. The
 
 - Vercel builds the Next.js application with `apps/web` as the root directory and workspace files outside that root available during install/build.
 - Railway builds from the monorepo root so pnpm can resolve the root manifest and lockfile, then runs the API workspace scripts.
+- The currently deployed API base URL is `https://voice-and-text-ai-agent-api-production.up.railway.app`; the only implemented routes are `/health/live` and `/health/ready` until application endpoints are added.
 - Locally, run `pnpm --filter @voice-and-text-ai-agent/web dev` and `pnpm --filter @voice-and-text-ai-agent/api dev` in separate terminals.
 - `/health/live` checks process liveness. `/health/ready` checks database readiness and should not be considered healthy unless the API can execute `SELECT 1`.
 
