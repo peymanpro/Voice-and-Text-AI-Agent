@@ -65,7 +65,7 @@ test("uses an explicit local SQLite database path when configured", () => {
 });
 
 test("selects PostgreSQL for a valid PostgreSQL URL", () => {
-  const databaseUrl = "postgresql://voice_user:secret@db.example.test:5432/voice_agent";
+  const databaseUrl = "***db.example.test:5432/voice_agent";
 
   withEnvironment({ NODE_ENV: "production", DATABASE_URL: databaseUrl }, () => {
     const options = createTypeOrmOptions();
@@ -94,7 +94,7 @@ test("rejects an invalid database URL without echoing credentials", () => {
 
 test("rejects non-PostgreSQL URLs", () => {
   withEnvironment(
-    { NODE_ENV: "development", DATABASE_URL: "mysql://user:pass@localhost/db" },
+    { NODE_ENV: "development", DATABASE_URL: "***localhost/db" },
     () => {
       assert.throws(createTypeOrmOptions, /postgres or postgresql protocol/);
     },
@@ -103,7 +103,7 @@ test("rejects non-PostgreSQL URLs", () => {
 
 test("rejects a PostgreSQL URL without a database name", () => {
   withEnvironment(
-    { NODE_ENV: "production", DATABASE_URL: "postgres://user:pass@localhost" },
+    { NODE_ENV: "production", DATABASE_URL: "***localhost" },
     () => {
       assert.throws(createTypeOrmOptions, /host and database name/);
     },
@@ -112,7 +112,10 @@ test("rejects a PostgreSQL URL without a database name", () => {
 
 test("requires PostgreSQL in production", () => {
   withEnvironment({ NODE_ENV: "production" }, () => {
-    assert.throws(createTypeOrmOptions, /DATABASE_URL is required in hosted environments/);
+    assert.throws(
+      createTypeOrmOptions,
+      /DATABASE_URL is required in hosted environments/,
+    );
   });
 });
 
@@ -135,7 +138,7 @@ test("rejects ambiguous PostgreSQL and SQLite settings", () => {
   withEnvironment(
     {
       NODE_ENV: "development",
-      DATABASE_URL: "postgres://user:pass@localhost/voice_agent",
+      DATABASE_URL: "***localhost/voice_agent",
       SQLITE_DATABASE: "./local.sqlite",
     },
     () => {
