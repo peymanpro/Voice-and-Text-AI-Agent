@@ -72,3 +72,21 @@ jobs:
 
       - name: Build
         run: pnpm build
+
+  local-postgres-compose:
+    name: Local PostgreSQL Compose smoke test
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Start PostgreSQL with Compose
+        run: docker compose up -d --wait postgres
+
+      - name: Verify PostgreSQL readiness
+        run: docker compose exec -T postgres pg_isready -U postgres -d voice_agent
+
+      - name: Stop Compose services
+        if: always()
+        run: docker compose down
