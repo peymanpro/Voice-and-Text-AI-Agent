@@ -19,7 +19,7 @@ export type ConversationStatus = "active" | "archived";
 @Index("IDX_conversations_session_updated", ["session", "updatedAt"])
 export class ConversationEntity {
   @PrimaryColumn({ type: "varchar", length: 36 })
-  id = randomUUID();
+  id: string = randomUUID();
 
   @ManyToOne("DemoSessionEntity", "conversations", {
     nullable: false,
