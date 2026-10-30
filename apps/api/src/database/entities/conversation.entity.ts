@@ -21,11 +21,10 @@ export class ConversationEntity {
   @PrimaryColumn({ type: "varchar", length: 36 })
   id = randomUUID();
 
-  @ManyToOne(
-    "DemoSessionEntity",
-    "conversations",
-    { nullable: false, onDelete: "CASCADE" },
-  )
+  @ManyToOne("DemoSessionEntity", "conversations", {
+    nullable: false,
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "session_id", referencedColumnName: "id" })
   session!: DemoSessionEntity;
 
@@ -48,9 +47,6 @@ export class ConversationEntity {
   @Column({ name: "updated_at", type: "varchar", length: 24 })
   updatedAt = new Date().toISOString();
 
-  @OneToMany(
-    "MessageEntity",
-    "conversation",
-  )
+  @OneToMany("MessageEntity", "conversation")
   messages!: MessageEntity[];
 }
