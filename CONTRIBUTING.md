@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for helping improve Voice and Text AI Agent. This project is in its initial implementation phase, so prefer small, reviewable changes that can be tested independently.
+Thanks for helping improve Voice and Text AI Agent. This project is in early implementation, so prefer small, reviewable changes that can be tested independently.
 
 ## Before you start
 
@@ -20,6 +20,10 @@ Thanks for helping improve Voice and Text AI Agent. This project is in its initi
 - Database schema changes must use versioned TypeORM migrations. Do not use TypeORM schema synchronization as a production migration strategy.
 - Keep provider credentials, database credentials, session secrets, private data, and raw user audio out of commits, logs, fixtures, and screenshots.
 - Never let model-generated text grant permissions or execute arbitrary tools. Server-side authorization and input validation are required.
+
+## Local databases
+
+See [docs/local-database.md](docs/local-database.md) for the SQLite and Docker Compose PostgreSQL workflows, migration commands, integration-test database isolation, and destructive-reset warnings. Do not run the PostgreSQL migration test against a database containing data you need; it deliberately rolls its schema back.
 
 ## Pull requests
 
