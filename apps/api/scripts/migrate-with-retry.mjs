@@ -37,7 +37,13 @@ function runMigration() {
     child.stderr.on("data", (chunk) => {
       stderr += chunk.toString();
     });
-    child.once("error", (error) => finish({ code: 1, stdout, stderr: stderr + error.message + "\n" }));
+    child.once("error", (error) => {
+      finish({
+        code: 1,
+        stdout,
+        stderr: stderr + error.message + "\n",
+      });
+    });
     child.once("close", (code) => finish({ code: code ?? 1, stdout, stderr }));
   });
 }
