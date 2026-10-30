@@ -52,6 +52,7 @@ A single GitHub repository does not mean the web and API run as one process. The
 - Railway builds from the monorepo root so pnpm can resolve the root manifest and lockfile, then runs the API workspace scripts.
 - The currently deployed API base URL is `https://voice-and-text-ai-agent-api-production.up.railway.app`; the only implemented routes are `/health/live` and `/health/ready` until application endpoints are added.
 - Locally, run `pnpm --filter @voice-and-text-ai-agent/web dev` and `pnpm --filter @voice-and-text-ai-agent/api dev` in separate terminals.
+- For local persistence, use the SQLite or Docker Compose PostgreSQL workflow in [local-database.md](local-database.md).
 - `/health/live` checks process liveness. `/health/ready` checks database readiness and should not be considered healthy unless the API can execute `SELECT 1`.
 
 This document defines module ownership and the intended architecture; it does not claim the full chat, agent, retrieval, STT, TTS, or end-to-end flows have been implemented.
