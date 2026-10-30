@@ -35,7 +35,7 @@ This repository is intended to be a **pnpm monorepo** with separate web and API 
 | Web              | Next.js App Router, React, TypeScript, Tailwind CSS                                                                   | Product UI, conversation workspace, evidence inspector, accessible voice controls                                                                    |
 | API              | NestJS, Node.js, TypeScript                                                                                           | Validated API contracts, agent orchestration, provider adapters, tools, security boundaries                                                          |
 | Persistence      | Hosted PostgreSQL with TypeORM for deployment; SQLite via TypeORM/better-sqlite3 for local development and fast tests | Conversations, messages, demo sessions, knowledge documents/chunks, tool runs, and execution events                                                  |
-| Hosting | Vercel for the Next.js web app; Railway for the NestJS API and PostgreSQL | The web shell is deployed; the API and database connection are provisioned but API readiness is not yet verified. |
+| Hosting          | Vercel for the Next.js web app; Railway for the NestJS API and PostgreSQL                                             | The web shell is deployed; the API and database connection are provisioned but API readiness is not yet verified.                                    |
 | Database hosting | Railway PostgreSQL as the intended API database; Neon/Supabase are optional PostgreSQL fallbacks                      | Managed PostgreSQL, private service networking, and Railway-managed DATABASE_URL reference; verify the current subscription quotas before deployment |
 | AI integration   | Vercel AI SDK and provider adapters where supported by current official documentation                                 | Model streaming and provider integration behind application-owned interfaces                                                                         |
 | Speech           | Replaceable STT and TTS adapters                                                                                      | Server-side transcription and speech synthesis, with deterministic mock adapters                                                                     |
@@ -45,7 +45,7 @@ TypeORM is the planned ORM for the NestJS API. Database schema changes will use 
 
 ### Workspace structure and the web/API boundary
 
-The initial workspace is expected to evolve toward the following organization. The actual layout will be documented and updated as files are implemented.
+This is the repository's current workspace split. The two applications are separate pnpm workspaces and are intended to run and deploy as separate services.
 
 The following boundaries describe the current monorepo structure and the intended runtime split; they do not imply that the full agent flow is already implemented.
 
@@ -55,7 +55,7 @@ The following boundaries describe the current monorepo structure and the intende
 - **Root tooling:** pnpm workspace, lockfile, shared quality scripts, GitHub Actions CI, and contributor documentation.
 - **`.railway/railway.ts`:** a desired-state blueprint that currently names a dedicated Railway project. It has not been applied to the existing `cheerful-curiosity` project and must not be applied there without reviewing the plan.
 
-The Railway blueprint has not been applied to the currently used Railway project. The API workspace, build/start/migration scripts, and readiness endpoint still need to be implemented before the first deployment can succeed.
+The `.railway/railway.ts` blueprint has not been applied to the currently used Railway project: it describes a dedicated project, while the live API and database reside in `cheerful-curiosity`. The API workspace, build/start/migration scripts, and readiness endpoint exist. The API is not considered ready until the pre-deploy migration succeeds and `/health/ready` is verified against PostgreSQL.
 
 ## Safety and trust boundaries
 
