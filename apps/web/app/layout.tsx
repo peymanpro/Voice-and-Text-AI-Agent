@@ -4,11 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Voice and Text AI Agent",
   description:
-    "An engineering-focused voice and text agent project with evidence-aware responses and controlled tool execution.",
+    "A voice and text agent workspace designed around inspectable evidence, controlled tools, and clear operational boundaries.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#090c12",
+  themeColor: "#090d13",
   colorScheme: "dark",
 };
 
