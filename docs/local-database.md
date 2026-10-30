@@ -124,7 +124,16 @@ docker compose down
 
 To reset a file-backed SQLite database, stop the API first and then delete only the local file `apps/api/.local/voice-agent.sqlite`. This permanently removes that SQLite database. Do not delete files in a directory unless you have verified that they are disposable.
 
-## 4. Migration rules
+## 4. CI verification
+
+The GitHub Actions workflow exercises the same database choices used by contributors:
+
+- The main quality job tests the TypeORM migration, persistence services, ownership checks, constraints, and rollback on in-memory SQLite and an ephemeral PostgreSQL 16 service container.
+- A separate `Local PostgreSQL Compose smoke test` starts the repository's actual `compose.yaml`, waits for its healthcheck, verifies `pg_isready`, and stops the service without deleting its volume.
+
+The Compose smoke-test runner is disposable CI infrastructure. It does not connect to Railway or any developer's local database.
+
+## 5. Migration rules
 
 - `synchronize` remains `false`; schema changes are made through versioned TypeORM migrations.
 - Run `pnpm --filter @voice-and-text-ai-agent/api build` before `migration:run`.
