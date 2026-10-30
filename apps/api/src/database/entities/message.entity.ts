@@ -22,11 +22,7 @@ export class MessageEntity {
   @PrimaryColumn({ type: "varchar", length: 36 })
   id = randomUUID();
 
-  @ManyToOne(
-    "ConversationEntity",
-    "messages",
-    { nullable: false, onDelete: "CASCADE" },
-  )
+  @ManyToOne("ConversationEntity", "messages", { nullable: false, onDelete: "CASCADE" })
   @JoinColumn({ name: "conversation_id", referencedColumnName: "id" })
   conversation!: ConversationEntity;
 
