@@ -3,10 +3,7 @@ import test from "node:test";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 
-import {
-  initialWorkspaceState,
-  workspaceReducer,
-} from "../lib/workspace-state.mjs";
+import { initialWorkspaceState, workspaceReducer } from "../lib/workspace-state.mjs";
 import { WorkspaceShell } from "../components/workspace-shell.tsx";
 
 test("starts with an empty draft and evidence inspector", () => {
