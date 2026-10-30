@@ -41,15 +41,6 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Temporary primitive formatting output
-        run: |
-          pnpm exec prettier --write apps/web/app/globals.css apps/web/components/ui/card.tsx apps/web/components/ui/dialog.tsx
-          for file in apps/web/app/globals.css apps/web/components/ui/card.tsx apps/web/components/ui/dialog.tsx; do
-            echo "FILE-BEGIN:$file"
-            cat "$file"
-            echo "FILE-END:$file"
-          done
-
       - name: Check formatting
         run: pnpm format:check
 
