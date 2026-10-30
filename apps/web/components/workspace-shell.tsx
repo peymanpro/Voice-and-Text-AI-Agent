@@ -13,8 +13,17 @@ const suggestedPrompts = [
   "Explain how a tool should be approved before it runs.",
 ];
 
-export function WorkspaceShell() {
-  const [state, dispatch] = useReducer(workspaceReducer, initialWorkspaceState);
+type WorkspaceShellProps = {
+  initialInspector?: "evidence" | "activity";
+};
+
+export function WorkspaceShell({
+  initialInspector = "evidence",
+}: WorkspaceShellProps) {
+  const [state, dispatch] = useReducer(workspaceReducer, {
+    ...initialWorkspaceState,
+    inspector: initialInspector,
+  });
   const hasDraft = state.draft.trim().length > 0;
 
   return (
