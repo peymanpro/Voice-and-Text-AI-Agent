@@ -10,12 +10,7 @@ type DialogProps = {
   children: React.ReactNode;
 };
 
-export function Dialog({
-  open,
-  title,
-  onOpenChange,
-  children,
-}: DialogProps) {
+export function Dialog({ open, title, onOpenChange, children }: DialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
 
