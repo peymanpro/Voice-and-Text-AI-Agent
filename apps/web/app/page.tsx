@@ -92,7 +92,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="hero-visual" aria-label="Illustration of the planned agent workflow">
+        <div className="hero-visual" role="img" aria-label="Illustration of the proposed agent workflow. This is not a live system.">
           <div className="visual-orbit orbit-large" />
           <div className="visual-orbit orbit-small" />
           <div className="visual-center">
