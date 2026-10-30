@@ -101,7 +101,10 @@ test("creates the core schema, persists a conversation, and rolls back", async (
       assert.equal(storedConversation.session.id, session.id);
       assert.equal(storedConversation.messages.length, 1);
       assert.equal(storedConversation.messages[0].content, "Hello, agent.");
-      assert.equal(storedConversation.messages[0].createdAt, "2026-10-30T00:00:01.000Z");
+      assert.equal(
+        storedConversation.messages[0].createdAt,
+        "2026-10-30T00:00:01.000Z",
+      );
 
       await assert.rejects(
         messageRepository.save(
@@ -129,7 +132,8 @@ test("creates the core schema, persists a conversation, and rolls back", async (
         ),
       );
 
-      await dataSource.undoLastMigration();
+      const removed = await dataSource.undoLastMigration();
+      assert.equal(removed.name, "CreateConversationPersistence1793360000000");
 
       const remainingTables = await dataSource.query(
         "SELECT name FROM sqlite_master WHERE type = 'table'",
