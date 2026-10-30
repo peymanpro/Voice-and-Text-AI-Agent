@@ -11,11 +11,7 @@ import { DemoSessionService } from "./demo-session.service.js";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      DemoSessionEntity,
-      ConversationEntity,
-      MessageEntity,
-    ]),
+    TypeOrmModule.forFeature([DemoSessionEntity, ConversationEntity, MessageEntity]),
   ],
   providers: [DemoSessionService, ConversationPersistenceService],
   exports: [DemoSessionService, ConversationPersistenceService],
