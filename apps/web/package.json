@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start --hostname 0.0.0.0",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "lint": "eslint app next.config.ts --max-warnings=0"
+    "lint": "eslint app components lib test next.config.ts --max-warnings=0",
+    "test": "node --import tsx --test test/*.test.mjs"
   },
   "dependencies": {
     "next": "^16.4.3",
@@ -18,6 +19,7 @@
     "@types/node": "^22.19.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "tsx": "^4.20.6"
   }
 }
