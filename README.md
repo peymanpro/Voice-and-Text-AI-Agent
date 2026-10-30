@@ -71,7 +71,7 @@ The initial demo is intentionally bounded:
 
 ## Development status
 
-At the initial bootstrap stage, this repository does **not** yet represent a working voice agent. The implementation will be delivered through small, tested phases:
+The project is still an early implementation and does **not** yet represent a working voice agent. The initial monorepo foundation and Phase 02 product UI shell are merged. The remaining capabilities are being delivered through small, tested phases:
 
 1. Workspace and quality-tooling foundation.
 2. Responsive product shell and design primitives.
@@ -98,7 +98,7 @@ Completed status will be based on passing tests and verified behavior, not the e
 
 ## Current repository state
 
-The pnpm workspace contains a Next.js web shell, a NestJS API shell, TypeORM configuration, local SQLite/PostgreSQL driver selection, `/health/live` and `/health/ready` endpoints, quality scripts, and a GitHub Actions workflow. The complete agent runtime, model/STT/TTS adapters, knowledge retrieval, domain entities/migrations, and end-to-end flows remain pending. The web shell is deployed at [https://voice-and-text-ai-agent.vercel.app](https://voice-and-text-ai-agent.vercel.app). The API shell is deployed at [https://voice-and-text-ai-agent-api-production.up.railway.app](https://voice-and-text-ai-agent-api-production.up.railway.app) in the existing `cheerful-curiosity` Railway project; the latest deployment reports `SUCCESS`, and Railway is configured to use `/health/ready` as its readiness check. A first attempt failed when PostgreSQL was cold-starting; the bounded migration-retry command then succeeded, and a subsequent deployment with `WEB_ORIGINS=https://voice-and-text-ai-agent.vercel.app` also succeeded. The pre-existing `nestjs-graphql-filter-pagination` service was not modified. The dedicated-project `.railway/railway.ts` blueprint has not been applied because it targets a different project. The public API currently exposes only the health endpoints; the web shell does not yet call a implemented chat/agent API. See [docs/architecture-boundaries.md](docs/architecture-boundaries.md) for the web/API security boundary, and [CONTRIBUTING.md](CONTRIBUTING.md) for development commands.
+The pnpm workspace contains a Next.js application, a NestJS API shell, TypeORM database-mode configuration, quality scripts, and a GitHub Actions workflow. Phase 02 is merged: the landing page and `/workspace` preview are implemented, along with reusable Button, StatusPill, TextField, Card, Skeleton, and native Dialog primitives. The workspace supports local draft editing, prompt suggestions, and Evidence/Activity panel selection; Send and microphone remain disabled because the agent API is not implemented yet. The web app is deployed at [https://voice-and-text-ai-agent.vercel.app](https://voice-and-text-ai-agent.vercel.app). The API shell is deployed at [https://voice-and-text-ai-agent-api-production.up.railway.app](https://voice-and-text-ai-agent-api-production.up.railway.app) in the existing `cheerful-curiosity` Railway project; Railway reports `SUCCESS` and uses `/health/ready` as its readiness check. The API currently exposes only `/health/live` and `/health/ready`. PostgreSQL persistence entities/migrations, chat endpoints, model/STT/TTS adapters, retrieval, and end-to-end agent execution remain pending. The pre-existing `nestjs-graphql-filter-pagination` service was not modified. The dedicated-project `.railway/railway.ts` blueprint has not been applied because it targets a different project. See [docs/architecture-boundaries.md](docs/architecture-boundaries.md) for the web/API security boundary, and [CONTRIBUTING.md](CONTRIBUTING.md) for development commands.
 
 ## Getting started
 
@@ -115,7 +115,11 @@ pnpm --filter @voice-and-text-ai-agent/web dev
 pnpm --filter @voice-and-text-ai-agent/api dev
 ```
 
+The web application exposes two routes: `/` for the product landing page and `/workspace` for the conversation workspace preview. The workspace is intentionally disconnected from the API at this stage; draft text remains in page state only, with no persistence or provider calls.
+
 The web and API development commands run in separate terminals. In local development, the API uses an in-memory SQLite database when `DATABASE_URL` is not set. Set `DATABASE_URL` to a PostgreSQL connection string to exercise PostgreSQL locally. Production requires `DATABASE_URL`; it must never use local SQLite storage.
+
+To run only the web UI tests, use `pnpm --filter @voice-and-text-ai-agent/web test`. They exercise UI state transitions and server-rendered accessible component states without requiring an API key or database.
 
 Root quality commands are `pnpm lint`, `pnpm format:check`, `pnpm typecheck`, `pnpm test`, and `pnpm build`. The committed `pnpm-lock.yaml` should be used with `pnpm install --frozen-lockfile` for reproducible installs. These commands do not imply that the complete agent or voice workflows are already implemented.
 
