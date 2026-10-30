@@ -1,7 +1,7 @@
 "use client";
 
+import React, { useReducer } from "react";
 import Link from "next/link";
-import { useReducer } from "react";
 
 import { Button } from "./ui/button";
 import { StatusPill } from "./ui/status-pill";
