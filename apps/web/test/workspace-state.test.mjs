@@ -5,6 +5,10 @@ import { renderToStaticMarkup } from "react-dom/server";
 
 import { initialWorkspaceState, workspaceReducer } from "../lib/workspace-state.mjs";
 import { WorkspaceShell } from "../components/workspace-shell.tsx";
+import { Card } from "../components/ui/card.tsx";
+import { Dialog } from "../components/ui/dialog.tsx";
+import { Skeleton } from "../components/ui/skeleton.tsx";
+import { TextField } from "../components/ui/text-field.tsx";
 
 test("starts with an empty draft and evidence inspector", () => {
   assert.deepEqual(initialWorkspaceState, {
@@ -98,4 +102,75 @@ test("renders accessible inspector controls and prompt suggestions", () => {
   assert.match(html, /Evidence/);
   assert.match(html, /Activity/);
   assert.match(html, /Show me how evidence and citations will appear\./);
+});
+
+test("renders a labelled text field with its hint", () => {
+  const html = renderToStaticMarkup(
+    createElement(TextField, {
+      id: "email",
+      label: "Email address",
+      hint: "Used only for account notifications.",
+      placeholder: "name@example.com",
+    }),
+  );
+
+  assert.match(html, /for="email"/);
+  assert.match(html, /id="email"/);
+  assert.match(html, /aria-describedby="email-hint"/);
+  assert.match(html, /Email address/);
+  assert.match(html, /Used only for account notifications/);
+});
+
+test("renders validation errors accessibly on a text field", () => {
+  const html = renderToStaticMarkup(
+    createElement(TextField, {
+      id: "email",
+      label: "Email address",
+      error: "Enter a valid email address.",
+    }),
+  );
+
+  assert.match(html, /aria-invalid="true"/);
+  assert.match(html, /aria-describedby="email-error"/);
+  assert.match(html, /Enter a valid email address/);
+});
+
+test("renders a reusable card with its selected spacing", () => {
+  const html = renderToStaticMarkup(
+    createElement(Card, { padding: "lg" }, "Reusable content"),
+  );
+
+  assert.match(html, /class="ui-card ui-card-lg"/);
+  assert.match(html, /Reusable content/);
+});
+
+test("renders loading skeletons as decorative content", () => {
+  const html = renderToStaticMarkup(
+    createElement(Skeleton, {
+      shape: "circular",
+      width: "40px",
+      height: "40px",
+    }),
+  );
+
+  assert.match(html, /aria-hidden="true"/);
+  assert.match(html, /ui-skeleton-circular/);
+  assert.match(html, /width:40px/);
+  assert.match(html, /height:40px/);
+});
+
+test("renders a dialog with an accessible title and close action", () => {
+  const html = renderToStaticMarkup(
+    createElement(
+      Dialog,
+      { open: false, title: "Confirm action", onOpenChange: () => {} },
+      "Dialog content",
+    ),
+  );
+
+  assert.match(html, /<dialog/);
+  assert.match(html, /aria-labelledby=/);
+  assert.match(html, /Confirm action/);
+  assert.match(html, /aria-label="Close dialog"/);
+  assert.match(html, /Dialog content/);
 });
